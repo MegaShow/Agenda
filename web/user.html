@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- html -->
+<html lang="zh-CN">
+<!-- head -->
+<head>
+	<title>Agenda</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<!-- body -->
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#Agenda-navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Agenda</a>
+		</div>
+		<div class="collapse navbar-collapse" id="Agenda-navbar">
+			<ul class="nav navbar-nav">
+				<li><a href="user.html">Gold</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Setting</a></li>
+						<li role="separator" class="divider"></li>
+						<li><a href="index.html">Log Out</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<!-- End Navbar -->
+
+<!-- Infomation -->
+<div class="container theme-showcase" role="main">
+	<div class="alert alert-success" role="alert">
+		<strong>[Start]</strong> Meeting <strong>Math</strong> has been created!
+	</div>
+	<div class="alert alert-info" role="alert">
+		<strong>[Update]</strong> User <strong>Gold</strong> changes infomation!
+	</div>
+	<div class="alert alert-warning" role="alert">
+		<strong>[Add]</strong> User <strong>G3</strong> joins the meeting <strong>HTML</strong>!
+	</div>
+	<div class="alert alert-danger" role="alert">
+		<strong>[Delete]</strong> Meeting <strong>English</strong> has been deleted!
+	</div>
+	<div class="page-header">
+		<h1>Infomation</h1>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h3 class="panel-title">Username</h3>
+				</div>
+				<div class="panel-body">
+					Gold
+				</div>
+			</div>
+		</div><!-- /.col-sm-4 -->
+		<div class="col-sm-4">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h3 class="panel-title">Email</h3>
+				</div>
+				<div class="panel-body">
+					2601257511@qq.com
+				</div>
+			</div>
+		</div><!-- /.col-sm-4 -->
+		<div class="col-sm-4">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h3 class="panel-title">Phone</h3>
+				</div>
+				<div class="panel-body">
+					18819861381
+				</div>
+			</div>
+		</div><!-- /.col-sm-4 -->
+	</div>
+	<div class="page-header">
+		<h1>Meetings</h1>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Title</th>
+						<th>Sponsor</th>
+						<th>Start Time</th>
+						<th>End Time</th>
+						<th>Participants</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Math</td>
+						<td>Gold</td>
+						<td>9999-12-31/23:58</td>
+						<td>9999-12-31/23:59</td>
+						<td>Mega</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>C++</td>
+						<td>Mega</td>
+						<td>1000-01-01/00:00</td>
+						<td>1000-01-01/00:01</td>
+						<td>Gold</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>HTML</td>
+						<td>Mega</td>
+						<td>1000-01-01/00:01</td>
+						<td>1000-01-01/00:02</td>
+						<td>G1, G2, G3</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- End Infomation -->
+</body>
+</html>
