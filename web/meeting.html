@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!-- html -->
+<html lang="zh-CN">
+<!-- head -->
+<head>
+  <title>Agenda</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<!-- body -->
+<body style="font-size:21px;">
+  <nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container-fluid col-md-offset-1 col-md-10">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#agenda-nav">
+          <span class="sr-only"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#top" style="font-size:32px;">Agenda</a>
+      </div>
+      <div class="collapse navbar-collapse" id="agenda-nav">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+            </a>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false" style="font-size:18px;">
+                  Modify
+                </a>
+              </li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true" aria-expanded="false" style="font-size:18px;">
+                  Settings
+                </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li align="middle"><a href="index.html" style="font-size:18px;">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>  <!-- /.container-fluid -->
+  </nav>
+  <div class="container col-md-offset-1 col-md-10 theme-showcase" role="main" style="margin-top:70px;">
+    <div class="jumbotron">
+      <h1>Hello, Gold!</h1>
+      <p>Welcome to Agenda! You can check your meetings, create a new meeting, quit a meeting and so on. Just try it!</p>
+    </div>
+    <div class="page-header">
+      <h1>Profile</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-success">
+          <div class="panel-heading"><strong style="font-size:22px;">Name</strong></div>
+          <div class="panel-body">Gold</div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-warning">
+          <div class="panel-heading"><strong style="font-size:22px;">Email</strong></div>
+          <div class="panel-body">2601257511@qq.com</div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-info">
+          <div class="panel-heading"><strong style="font-size:22px;">Phone</strong></div>
+          <div class="panel-body">18819861381</div>
+        </div>
+      </div>
+    </div>  <!-- /.row -->
+    <div class="page-header" style="font-size:40px;">
+      <h1>Meetings</h1>
+    </div>
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead style="font-size:22px;">
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Sponsor</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>More</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Math</td>
+            <td>Gold</td>
+            <td>9999-12-31/23:58</td>
+            <td>9999-12-31/23:59</td>
+            <td><a href="user.html"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></td>
+            <td><a href="user.html"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>&nbsp;&nbsp;&nbsp;<a href="user.html"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>C++</td>
+            <td>Mega</td>
+            <td>1000-01-01/00:00</td>
+            <td>1000-01-01/00:01</td>
+            <td><a href="user.html"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></td>
+            <td>
+              <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#quit">
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>  <!-- /.row -->
+  </div>  <!-- /.container -->
+  <div id="agenda-create" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">New meeting</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-4 col-xs-8" style="padding:10px;">
+            <p>Title:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-6" style="padding:10px;">
+            <p>Start Time:</p>
+            <input type="text" class="form-control" placeholder="e.g. 1000-01-01/00:00" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-6" style="padding:10px;">
+            <p>End Time:</p>
+            <input type="text" class="form-control" placeholder="e.g. 9999-12-31/23:59" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
+            <p>Paticipators:</p>
+            <input type="text" class="form-control" placeholder="e.g. Gold Mega" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10" style="padding:10px;">
+            <p>Email:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10" style="padding:10px;">
+            <p>Phone:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="agenda-settings" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Settings</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>Old Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>New Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>Confirm New Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="paticipators" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="quit" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <p>One fine body&hellip;</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</body>
+</html>
