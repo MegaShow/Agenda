@@ -35,9 +35,18 @@
               <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Create Meeting</a></li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false" style="font-size:18px;">
+                  Modify
+                </a>
+              </li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true" aria-expanded="false" style="font-size:18px;">
+                  Settings
+                </a>
+              </li>
               <li role="separator" class="divider"></li>
-              <li><a href="index.html"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log Out</a></li>
+              <li align="middle"><a href="index.html" style="font-size:18px;">Sign Out</a></li>
             </ul>
           </li>
         </ul>
@@ -120,16 +129,74 @@
   <div id="agenda-create" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Modal title</h4>
-        </div>
+        <div class="modal-header"><strong style="font-size:22px;">New meeting</strong></div>
         <div class="modal-body">
-          <p>One fine body&hellip;</p>
+          <div class="input-group col-sm-4 col-xs-8" style="padding:10px;">
+            <p>Title:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-6" style="padding:10px;">
+            <p>Start Time:</p>
+            <input type="text" class="form-control" placeholder="e.g. 1000-01-01/00:00" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-6" style="padding:10px;">
+            <p>End Time:</p>
+            <input type="text" class="form-control" placeholder="e.g. 9999-12-31/23:59" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
+            <p>Paticipators:</p>
+            <input type="text" class="form-control" placeholder="e.g. Gold Mega" style="font-size:21px;">
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10" style="padding:10px;">
+            <p>Email:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10" style="padding:10px;">
+            <p>Phone:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  <div id="agenda-settings" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Settings</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>Old Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>New Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8" style="padding:10px;">
+            <p>Confirm New Password:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Close</button>
+          <a href="meeting.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
