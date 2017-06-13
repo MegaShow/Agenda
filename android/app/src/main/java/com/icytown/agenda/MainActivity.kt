@@ -13,15 +13,33 @@ import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.content.Intent
+import android.content.Context
 import android.net.Uri
+import android.R.id.edit
+import android.content.SharedPreferences.Editor
+import android.content.SharedPreferences
+import android.support.annotation.Nullable
+import android.widget.TextView
+
 
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    public var cookie_name:String = ""
+    public var cookie_id:Int = 0
+    public var cookie_email:String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val ctx = this@MainActivity
+        val sp = ctx.getSharedPreferences("agenda", Context.MODE_PRIVATE)
+        cookie_id = sp.getInt("cookie_id", 0)
+        cookie_name = sp.getString("cookie_name", "")
+        cookie_email = sp.getString("cookie_email", "")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //setContentView(R.layout.signin_layout)
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -39,6 +57,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+
+        /*val nameText = findViewById(R.id.NameTextView) as TextView
+        val emailText = findViewById(R.id.EmailTextView) as TextView
+        if (cookie_id != 0) {
+            nameText.setText(cookie_name)
+            emailText.setText(cookie_email)
+        } else {
+            nameText.setText("No sign in")
+            emailText.setText("")
+        }*/
     }
 
     override fun onBackPressed() {
@@ -52,6 +80,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
+        val nameText = findViewById(R.id.NameTextView) as TextView
+        val emailText = findViewById(R.id.EmailTextView) as TextView
+        if (cookie_id != 0) {
+            nameText.setText(cookie_name)
+            emailText.setText(cookie_email)
+        } else {
+            nameText.setText("No sign in")
+            emailText.setText("")
+        }
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -74,17 +111,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         val id = item.itemId
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_mymeeting) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            val nameText = findViewById(R.id.NameTextView) as TextView
+            val emailText = findViewById(R.id.EmailTextView) as TextView
+            if (cookie_id != 0) {
+                nameText.setText(cookie_name)
+                emailText.setText(cookie_email)
+            } else {
+                nameText.setText("No sign in")
+                emailText.setText("")
+            }
+        } else if (id == R.id.nav_setting) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_logout) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_signin) {
+            setContentView(R.layout.signin_layout)
+        } else if (id == R.id.nav_user) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_meeting) {
 
         }
 
