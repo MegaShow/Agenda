@@ -16,7 +16,7 @@
         <li><a href="#">Meeting</a></li>
         <li><a href="#">About</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
+      <ul id="agenda-nav-right" class="nav navbar-nav navbar-right">
         <li>
           <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
@@ -30,8 +30,7 @@
             <li id="nsi-1" align="middle">No sign in.</li>
             <li id="nsi-2" role="separator" class="divider"></li>
             <li id="nsi-3" align="middle">
-              <a href="SignIn.html" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true"
-                aria-expanded="false" style="font-size:18px;">
+              <a href="SignIn.html" style="font-size:18px;">
                   Sign in
                 </a>
             </li>
@@ -42,7 +41,7 @@
               <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
                 style="font-size:18px;">
                   Modify
-                </a>
+              </a>
             </li>
             <li id="si-5" align="middle">
               <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true" aria-expanded="false"
@@ -64,14 +63,58 @@
   <!-- /.container-fluid -->
 </nav>
 
+<div class="modal fade" id="agenda-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id="agenda-modal-html" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
+            <p>Email:</p>
+            <input id="modify-email" type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
+            <p>Phone:</p>
+            <input id="modify-phone" type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" onclick="modify()" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
 <script>
   $(function () {
     if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+      if (window.location.pathname == "/agenda/SignIn.html") {
+        window.location.href = "User.html";
+      } else if (window.location.pathname != "/agenda/User.html") {
+        $('#si-4').hide();
+        $('#si-5').hide();
+      }
       $('#si-2').html($.cookie('cookie_name'));
       $('#nsi-1').hide();
       $('#nsi-2').hide();
       $('#nsi-3').hide();
     } else {
+      if (window.location.pathname == "/agenda/SignIn.html") {
+        $('agenda-nav-right').hide();
+      } else if (window.location.pathname == "/agenda/User.html") {
+        window.location.href = "SignIn.html";
+      }
       $('#si-1').hide();
       $('#si-2').hide();
       $('#si-3').hide();
@@ -81,4 +124,9 @@
       $('#si-7').hide();
     }
   });
+
+  function message(str) {
+    $('#agenda-modal-html').html(str);
+    $('#agenda-modal').modal('show');
+  }
 </script>

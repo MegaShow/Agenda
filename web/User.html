@@ -17,13 +17,12 @@
 
 <body style="font-size:21px;">
   <!-- nav -->
-<<<<<<< HEAD
   <div id="agenda-nav-bar"></div>
   
   <div class="container col-md-offset-1 col-md-10 theme-showcase" role="main" style="margin-top:70px;">
     <!-- jumbotron -->
     <div class="jumbotron">
-      <h1>Hello, Gold</h1>
+      <h1 id="agenda-user-hello"></h1>
       <p>Welcome to Agenda! Now you can check meetings, manage meetings, create new meetings and so on. Just try it!</p>
     </div>
     <!-- Message -->
@@ -144,30 +143,6 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-  <div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
-        <div class="modal-body">
-          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
-            <p>Email:</p>
-            <input type="text" class="form-control" style="font-size:21px;">
-          </div>
-          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
-            <p>Phone:</p>
-            <input type="text" class="form-control" style="font-size:21px;">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">Save</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
   <div id="agenda-settings" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -190,14 +165,12 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
           <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">Save</a>
         </div>
-<<<<<<< HEAD
       </div>
       <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-=======
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -222,7 +195,6 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
->>>>>>> 2fcb2a02050c137a5d272e3cfdc373ceb810df4e
   <div id="agenda-edit" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -275,6 +247,14 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
+  
+  <script>
+    $(function (){
+      if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+        $('#agenda-user-hello').html('Hello, ' + $.cookie('cookie_name'));
+      }
+    });
+  </script>
 </body>
 
 </html>

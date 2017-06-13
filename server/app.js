@@ -47,7 +47,7 @@ app.post('/agenda/login', (req, res, next) => {
   var password = sqlModule.dealEscape(req.body.password);
   console.log('Event: user login');
   console.log('user: ' + username);
-  console.log('password: ' + password);
+  console.log('password: ' + password + '\n');
   sqlModule.query("SELECT * FROM `user` WHERE `name` = '" + username + "';", (vals, isNull) => {
     if (isNull) {
       console.log('User don\'t exist.');
@@ -63,6 +63,19 @@ app.post('/agenda/login', (req, res, next) => {
       }
     }
   });
+});
+
+//modify
+app.post('/agenda/modify', (req, res, next) => {
+  var id = sqlModule.dealEscape(req.body.id);
+  var email = sqlModule.dealEscape(req.body.email);
+  var phone = sqlModule.dealEscape(req.body.phone);
+  console.log('Event: user modify');
+  console.log('id: ' + id);
+  console.log('email: ' + email);
+  console.log('phone: ' + phone + '\n');
+  sqlModule.query("UPDATE `user` SET `email` = '" + email + "', `phone` = '" + phone + "' WHERE `user`.`id` = " + id + ";");
+  res.send({});
 });
 
 
