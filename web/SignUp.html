@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- html -->
+<html lang="zh-CN">
+<!-- head -->
+<head>
+  <title>Agenda</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<!-- body -->
+<body style="font-size:21px;background-color:#f3f3f3;">
+  <!-- nav -->
+  <nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container-fluid col-md-offset-1 col-md-10">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#agenda-sign-up-nav">
+          <span class="sr-only"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="SignIn.html" style="font-size:32px;">Agenda</a>
+      </div>
+      <div class="collapse navbar-collapse" id="agenda-sign-up-nav">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="SignIn.html" style="padding:10px;"><button class="btn btn-success">Sign In</button></a></li>
+        </ul>
+      </div>
+    </div>  <!-- /.container-fluid -->
+  </nav>
+  <div class="container col-md-offset-4 col-md-4 col-sm-offset-3 col-sm-6 theme-showcase" role="main" style="margin-top:100px;">
+    <div class="panel panel-info">
+      <div class="panel-body">
+        <p align="middle" style="font-size:45px;padding:12px;">Agenda</p>
+        <div class="input-group col-xs-12" style="padding:10px;">
+          <span class="input-group-addon" id="agenda-sign-up-input-1" style="font-size:19px;">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+          </span>
+          <input id="agenda-sign-up-username" type="text" class="form-control" placeholder="Username" style="font-size:20px;">
+        </div>
+        <div class="input-group col-xs-12" style="padding:10px;">
+          <span class="input-group-addon" id="agenda-sign-up-input-2" style="font-size:19px;">
+            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+          </span>
+          <input id="agenda-sign-up-password" type="password" class="form-control" placeholder="Password" style="font-size:20px;">
+        </div>
+        <div class="input-group col-xs-12" style="padding:10px;">
+          <span class="input-group-addon" id="agenda-sign-up-input-3" style="font-size:19px;">
+            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+          </span>
+          <input id="agenda-sign-up-confirm-password" type="password" class="form-control" placeholder="Confirm Password" style="font-size:20px;">
+        </div>
+        <div class="input-group col-xs-12" style="padding:10px;">
+          <span class="input-group-addon" id="agenda-sign-up-input-4" style="font-size:19px;">
+            <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+          </span>
+          <input id="agenda-sign-up-email" type="text" class="form-control" placeholder="Email" style="font-size:20px;">
+        </div>
+        <div class="input-group col-xs-12" style="padding:10px;">
+          <span class="input-group-addon" id="agenda-sign-up-input-5" style="font-size:19px;">
+            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+          </span>
+          <input id="agenda-sign-up-phone" type="text" class="form-control" placeholder="Phone" style="font-size:20px;">
+        </div>
+        <div class="btn-group col-xs-12" role="group" style="padding:15px;">
+          <a href="User.html" type="button" class="btn btn-success btn-block" style="font-size:18px;">Sign Up</a>
+        </div>
+      </div>
+    </div>  <!-- panel -->
+  </div>  <!-- /.container -->
+</body>
+
+</html>
