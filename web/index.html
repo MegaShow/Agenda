@@ -9,7 +9,7 @@
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-  <script src="js/js.cookie-2.1.4.min.js"></script>
+  <script src="js/jquery.cookie.js"></script>
   <script src="js/api.js"></script>
 </head>
 
@@ -28,12 +28,16 @@
       </div>
       <div class="collapse navbar-collapse" id="agenda-nav">
         <ul class="nav navbar-nav">
-          <li><a href="#">ABC</a></li>
-          <li><a href="#">XYZ</a></li>
-          <li><a href="https://www.zhenly.cn">ZhenLy</a></li>
-          </li>
+          <li><a href="#">User</a></li>
+          <li><a href="#">Meeting</a></li>
+          <li><a href="#">About</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li>
+            <div class="btn-group" role="group" aria-label="sign-in" style="padding:5px;">
+              <button type="button" class="btn btn-success btn-block">Sign in</button>
+            </div>
+          </li>
           <li class="dropdown">
             <a id="nav-username" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <span class="caret"></span>
@@ -68,19 +72,19 @@
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             </span>
-            <input id="username" type="text" class="form-control" placeholder="Pick a username">
+            <input id="in-username" type="text" class="form-control" placeholder="Pick a username">
           </div>
           <div class="input-group" style="padding:15px;">
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
             </span>
-            <input id="email" type="text" class="form-control" placeholder="Your email address">
+            <input id="in-email" type="text" class="form-control" placeholder="Your email address">
           </div>
           <div class="input-group" style="padding:15px;">
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </span>
-            <input id="password" type="password" class="form-control" placeholder="Create a password">
+            <input id="in-password" type="password" class="form-control" placeholder="Create a password">
           </div>
           <div class="btn-group container" role="group" aria-label="sign-out" style="padding:15px;">
             <button type="button" onclick="signup()" class="btn btn-success btn-block">Sign up for Agenda</button>
