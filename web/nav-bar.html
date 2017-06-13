@@ -1,0 +1,84 @@
+<!-- Agenda nav bar -->
+<nav class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container-fluid col-md-offset-1 col-md-10">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#agenda-nav">
+          <span class="sr-only"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      <a class="navbar-brand" href="#top" style="font-size:32px;">Agenda</a>
+    </div>
+    <div class="collapse navbar-collapse" id="agenda-nav">
+      <ul class="nav navbar-nav">
+        <li><a href="#">User</a></li>
+        <li><a href="#">Meeting</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            </a>
+          <ul class="dropdown-menu">
+            <li id="nsi-1" align="middle">No sign in.</li>
+            <li id="nsi-2" role="separator" class="divider"></li>
+            <li id="nsi-3" align="middle">
+              <a href="SignIn.html" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true"
+                aria-expanded="false" style="font-size:18px;">
+                  Sign in
+                </a>
+            </li>
+            <li id="si-1" align="middle">Sign in as</li>
+            <li id="si-2" align="middle" style="font-size:18px;"></li>
+            <li id="si-3" role="separator" class="divider"></li>
+            <li id="si-4" align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Modify
+                </a>
+            </li>
+            <li id="si-5" align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Settings
+                </a>
+            </li>
+            <li id="si-6" role="separator" class="divider"></li>
+            <li id="si-7" align="middle">
+              <div class="btn-group" role="group" aria-label="log-out">
+                <button type="button" onclick="logout()" class="btn btn-warning btn-block">Log out</button>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+
+<script>
+  $(function () {
+    if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+      $('#si-2').html($.cookie('cookie_name'));
+      $('#nsi-1').hide();
+      $('#nsi-2').hide();
+      $('#nsi-3').hide();
+    } else {
+      $('#si-1').hide();
+      $('#si-2').hide();
+      $('#si-3').hide();
+      $('#si-4').hide();
+      $('#si-5').hide();
+      $('#si-6').hide();
+      $('#si-7').hide();
+    }
+  });
+</script>

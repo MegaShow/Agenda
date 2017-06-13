@@ -1,12 +1,8 @@
 // Agenda Web Function
 
 // auto call function
-$(() => {
-  if ($.cookie('cookie_name') != null && $.cookie('cookie_name') != 'null') {
-    $('#nav-username').html($.cookie('cookie_name')+'<span class="caret"></span>');
-  } else {
-    $('#nav-username').html('No sign in'+'<span class="caret"></span>');
-  }
+$(function () {
+  $('#agenda-nav-bar').load('nav-bar.html');
 });
 
 
@@ -23,7 +19,7 @@ function signup() {
     if (data.status == 'success') {
       $.cookie('cookie_name', $('#in-username').val());
       $.cookie('cookie_id', data.id);
-      $('#nav-username').html($('#in-username').val()+'<span class="caret"></span>');
+      window.location.reload();
     }
   });
   return true;
@@ -32,14 +28,24 @@ function signup() {
 
 // sign in function
 function sigin() {
+  if ($('#in-username').val() == '' || $('#in-password').val() == '') {
+    return false;
+  }
+  $.post('/api/agenda/login', {
+    username: $('#in-username').val(),
+    password: $('#in-password').val()
+  }, (data) => {
 
+  });
+  return true;
 }
 
  
 // log out function
 function logout() {
-  $.cookie('cookie_name', '');
-  $.cookie('cookie_id', '');
+  $.cookie('cookie_name', null);
+  $.cookie('cookie_id', 0);
   $('#nav-username').html('No sign in'+'<span class="caret"></span>');
+  window.location.reload();
 }
 
