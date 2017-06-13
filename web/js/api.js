@@ -1,30 +1,45 @@
 // Agenda Web Function
 
-
+// auto call function
 $(() => {
-  if (Cookies.get('cookie_name') != null) {
-    $('#nav-username').html(Cookies.get('cookie_name'));
+  if ($.cookie('cookie_name') != null && $.cookie('cookie_name') != 'null') {
+    $('#nav-username').html($.cookie('cookie_name')+'<span class="caret"></span>');
   } else {
-    $('#nav-username').html('No sign in');
+    $('#nav-username').html('No sign in'+'<span class="caret"></span>');
   }
 });
 
 
+// sign up function
 function signup() {
-  if ($('#username').val() == '' || $('#email').val() == '' || $('#password').val() == '') {
+  if ($('#in-username').val() == '' || $('#in-email').val() == '' || $('#in-password').val() == '') {
     return false;
   }
   $.post('/api/agenda/signup', {
-    username: $('#username').val(),
-    email: $('#email').val(),
-    password: $('#password').val()
+    username: $('#in-username').val(),
+    email: $('#in-email').val(),
+    password: $('#in-password').val()
   }, (data) => {
     if (data.status == 'success') {
-      Cookies.set('cookie_name', username);
-      Cookies.set('cookie_id', data.id);
-      $('#nav-username').html(username);
+      $.cookie('cookie_name', $('#in-username').val());
+      $.cookie('cookie_id', data.id);
+      $('#nav-username').html($('#in-username').val()+'<span class="caret"></span>');
     }
   });
   return true;
+}
+
+
+// sign in function
+function sigin() {
+
+}
+
+ 
+// log out function
+function logout() {
+  $.cookie('cookie_name', '');
+  $.cookie('cookie_id', '');
+  $('#nav-username').html('No sign in'+'<span class="caret"></span>');
 }
 
