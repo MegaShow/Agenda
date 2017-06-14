@@ -19,6 +19,8 @@ import android.R.id.edit
 import android.content.SharedPreferences.Editor
 import android.content.SharedPreferences
 import android.support.annotation.Nullable
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 
 
@@ -127,7 +129,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         } else if (id == R.id.nav_logout) {
 
         } else if (id == R.id.nav_signin) {
-            setContentView(R.layout.signin_layout)
+            //setContentView(R.layout.signin_layout)
+            val editName = findViewById(R.id.editText) as EditText
+            val editPassword = findViewById(R.id.editText2) as EditText
+            val button = findViewById(R.id.button2) as Button
+            editName.visibility = 1
+            editPassword.visibility = 1
+            button.visibility = 1
         } else if (id == R.id.nav_user) {
 
         } else if (id == R.id.nav_meeting) {
@@ -140,8 +148,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun onClick(v: View?) {
-        val uri = Uri.parse("https://github.com/FantasticGold/")
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        startActivity(intent)
+        //val uri = Uri.parse("https://github.com/FantasticGold/")
+        //val intent = Intent(Intent.ACTION_VIEW, uri)
+        //startActivity(intent)
+        setContentView(R.layout.signin_layout)
+    }
+
+    fun signin(v: View?) {
+        setContentView(R.layout.signin_layout)
     }
 }
