@@ -10,6 +10,9 @@
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="js/moment.js"></script>
+  <script src="js/bootstrap-datetimepicker.js"></script>
   <script src="js/jquery.cookie.js"></script>
   <script src="js/api.js"></script>
 </head>
@@ -18,7 +21,7 @@
 <body style="font-size:21px;">
   <!-- nav -->
   <div id="agenda-nav-bar"></div>
-  
+
   <div class="container col-md-offset-1 col-md-10 theme-showcase" role="main" style="margin-top:70px;">
     <!-- jumbotron -->
     <div class="jumbotron">
@@ -27,8 +30,7 @@
     </div>
     <!-- Message -->
     <div class="alert alert-warning alert-dismissible" role="alert" style="font-size:18px;">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:5px;"><span aria-hidden="true">&times;</span></button>
-      &nbsp;You quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>English</strong></span> !
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:5px;"><span aria-hidden="true">&times;</span></button>      &nbsp;You quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>English</strong></span> !
     </div>
     <!-- Profile -->
     <div class="page-header">
@@ -122,12 +124,45 @@
           </div>
           <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
             <p>Start Time:</p>
-            <input type="text" class="form-control" placeholder="e.g. 1000-01-01/00:00" style="font-size:21px;">
+            <div class="form-group">
+              <div class='input-group date' id='start-time'>
+                <input type='text' class="form-control" style="font-size:21px;">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
           </div>
           <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
             <p>End Time:</p>
-            <input type="text" class="form-control" placeholder="e.g. 9999-12-31/23:59" style="font-size:21px;">
+            <div class="form-group">
+              <div class='input-group date' id='end-time'>
+                <input type='text' class="form-control" style="font-size:21px;">
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
           </div>
+          <script type="text/javascript">
+            $(function () {
+              $(function () {
+                $('#start-time').datetimepicker({
+                  format: 'YYYY-MM-DD/hh:mm A'
+                });
+                $('#end-time').datetimepicker({
+                  format: 'YYYY-MM-DD/hh:mm A',
+                  useCurrent: false //Important! See issue #1075
+                });
+                $("#start-time").on("dp.change", function (e) {
+                  $('#end-time').data("DateTimePicker").minDate(e.date);
+                });
+                $("#end-time").on("dp.change", function (e) {
+                  $('#start-time').data("DateTimePicker").maxDate(e.date);
+                });
+              });
+            });
+          </script>
           <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
             <p>Paticipators:</p>
             <input type="text" class="form-control" placeholder="e.g. Gold Mega" style="font-size:21px;">
@@ -143,9 +178,6 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
   <div id="agenda-sign-off" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -164,9 +196,12 @@
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
           <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">OK</a>
         </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
   <div id="agenda-edit" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -219,9 +254,9 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-  
+
   <script>
-    $(function (){
+    $(function () {
       if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
         $('#agenda-user-hello').html('Hello, ' + $.cookie('cookie_name'));
         $('#agenda-user-name').html($.cookie('cookie_name'));
