@@ -135,9 +135,9 @@ app.post('/agenda/signoff', (req, res, next) => {
     if (isNull) {
       console.log('User don\'t exist.\n');
       res.send({ status: 'failed', err: 'User don\'t exist.' });
-    } else if (vals[0].password != password) {
-      console.log('Password error.\n');
-      res.send({ status: 'failed', err: 'password error.' });
+    } else if (vals[0].password != password || vals[0].name != name) {
+      console.log('Username error. / Password error.\n');
+      res.send({ status: 'failed', err: 'Username error. / Password error.' });
     } else {
       sqlModule.query("DELETE FROM `user` WHERE `user`.`id` = " + id + ";");
       console.log('Delete success.\n');
