@@ -122,26 +122,29 @@ app.post('/agenda/setting', (req, res, next) => {
   });
 });
 
-function signoff() {
-  if ($('#delete-name').val() == '' || $('#delete-password').val() == '') {
-    return false;
-  }
-  $.post('/api/agenda/delete', {
-    id: $.cookie('cookie_id'),
-    name: $('#delete-name').val(),
-    password: $('#delete-password').val()
-  }, (data) => {
-    if (data.status == 'success') {
-      $.cookie('cookie_name', null);
-      $.cookie('cookie_id', 0);
-      window.location.href = "SignIn.html";
+//signoff
+app.post('/agenda/signoff', (req, res, next) => {
+  var id = sqlModule.dealEscape(req.body.id);
+  var name = sqlModule.dealEscape(req.body.name);
+  var password = sqlModule.dealEscape(req.body.password);
+  console.log('Event: user signoff');
+  console.log('id: ' + id);
+  console.log('name: ' + name);
+  console.log('password: ' + password);
+  sqlModule.query("SELECT * FROM `user` WHERE `id` = " + id + ";", (vals, isNull) => {
+    if (isNull) {
+      console.log('User don\'t exist.\n');
+      res.send({ status: 'failed', err: 'User don\'t exist.' });
+    } else if (vals[0].password != password) {
+      console.log('Password error.\n');
+      res.send({ status: 'failed', err: 'password error.' });
     } else {
-      message(data.err);
+      sqlModule.query("DELETE FROM `user` WHERE `user`.`id` = " + id + ";");
+      console.log('Delete success.\n');
+      res.send({ status: 'success' });
     }
   });
-  return true;
-}
-
+});
 
 
 app.get('/', function (req, res) {

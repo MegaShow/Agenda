@@ -105,7 +105,7 @@ function signoff() {
   if ($('#delete-name').val() == '' || $('#delete-password').val() == '') {
     return false;
   }
-  $.post('/api/agenda/delete', {
+  $.post('/api/agenda/signoff', {
     id: $.cookie('cookie_id'),
     name: $('#delete-name').val(),
     password: $('#delete-password').val()
