@@ -17,44 +17,55 @@
         <li><a href="#">About</a></li>
       </ul>
       <ul id="agenda-nav-right" class="nav navbar-nav navbar-right">
-        <li>
+        <li id="agenda-nav-right-add">
           <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
             </a>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" id="agenda-nav-right-cog">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
             </a>
           <ul class="dropdown-menu">
-            <li id="nsi-1" align="middle">No sign in.</li>
-            <li id="nsi-2" role="separator" class="divider"></li>
-            <li id="nsi-3" align="middle">
-              <a href="SignIn.html" style="font-size:18px;">
-                  Sign in
+            <div id="agenda-nav-sign">
+              <li align="middle" style="font-size:18px;padding-top:6px">No User</li>
+              <li role="separator" class="divider"></li>
+              <li id="agenda-nav-sign-in" align="middle" style="padding-bottom:4px">
+                <a href="SignUp.html">
+                  <button class="btn btn-success">Sign Up</button>
+                  </a>
+              </li>
+              <li id="agenda-nav-sign-up" align="middle" style="padding-bottom:4px">
+                <a href="SignIn.html">
+                  <button class="btn btn-success">Sign In</button>
+                  </a>
+              </li>
+            </div>
+            <div id="agenda-nav-user">
+              <li align="middle">
+                <div style="font-size:18px;padding-top:6px">Sign in as</div>
+                <div id="agenda-nav-user-name" style="padding-top:6px;font-size:24px;"></div>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
+                  style="font-size:18px;">
+                    Modify
                 </a>
-            </li>
-            <li id="si-1" align="middle">Sign in as</li>
-            <li id="si-2" align="middle" style="font-size:18px;"></li>
-            <li id="si-3" role="separator" class="divider"></li>
-            <li id="si-4" align="middle">
-              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
-                style="font-size:18px;">
-                  Modify
-              </a>
-            </li>
-            <li id="si-5" align="middle">
-              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-settings" aria-haspopup="true" aria-expanded="false"
-                style="font-size:18px;">
-                  Settings
-                </a>
-            </li>
-            <li id="si-6" role="separator" class="divider"></li>
-            <li id="si-7" align="middle">
-              <div class="btn-group" role="group" aria-label="log-out">
-                <button type="button" onclick="logout()" class="btn btn-warning btn-block">Log out</button>
-              </div>
-            </li>
+              </li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-setting" aria-haspopup="true" aria-expanded="false"
+                  style="font-size:18px;">
+                    Setting
+                  </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li align="middle" style="padding-bottom:4px">
+                <div class="btn-group" role="group" aria-label="log-out">
+                  <button type="button" onclick="logout()" class="btn btn-warning btn-block">Log out</button>
+                </div>
+              </li>
+            </div>
           </ul>
         </li>
       </ul>
@@ -95,33 +106,53 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
+  <div id="agenda-setting" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Settings</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Old Password:</p>
+            <input id="setting-old-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>New Password:</p>
+            <input id="setting-new-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Confirm New Password:</p>
+            <input id="setting-again-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
 
 <script>
   $(function () {
     if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
-      if (window.location.pathname == "/agenda/SignIn.html") {
+      if (window.location.pathname != "/agenda/User.html") {
         window.location.href = "User.html";
-      } else if (window.location.pathname != "/agenda/User.html") {
-        $('#si-4').hide();
-        $('#si-5').hide();
       }
-      $('#si-2').html($.cookie('cookie_name'));
-      $('#nsi-1').hide();
-      $('#nsi-2').hide();
-      $('#nsi-3').hide();
+      $('#agenda-nav-user-name').html($.cookie('cookie_name'));
+      $('#agenda-nav-sign').hide();
     } else {
-      if (window.location.pathname == "/agenda/SignIn.html") {
-        $('agenda-nav-right').hide();
-      } else if (window.location.pathname == "/agenda/User.html") {
+      if (window.location.pathname == "/agenda/User.html") {
         window.location.href = "SignIn.html";
+      } else if (window.location.pathname == "/agenda/SignIn.html") {
+        $('#agenda-nav-sign-up').hide();
+      } else if (window.location.pathname == "/agenda/SignUp.html") {
+        $('#agenda-nav-sign-in').hide();
       }
-      $('#si-1').hide();
-      $('#si-2').hide();
-      $('#si-3').hide();
-      $('#si-4').hide();
-      $('#si-5').hide();
-      $('#si-6').hide();
-      $('#si-7').hide();
+      $('#agenda-nav-right-add').hide();
+      $('#agenda-nav-user').hide();
     }
   });
 

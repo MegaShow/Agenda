@@ -38,19 +38,19 @@
       <div class="col-sm-4">
         <div class="panel panel-success">
           <div class="panel-heading"><strong style="font-size:22px;">Name</strong></div>
-          <div class="panel-body">Gold</div>
+          <div id="agenda-user-name" class="panel-body"></div>
         </div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-warning">
           <div class="panel-heading"><strong style="font-size:22px;">Email</strong></div>
-          <div class="panel-body">2601257511@qq.com</div>
+          <div id="agenda-user-email" class="panel-body"></div>
         </div>
       </div>
       <div class="col-sm-4">
         <div class="panel panel-info">
           <div class="panel-heading"><strong style="font-size:22px;">Phone</strong></div>
-          <div class="panel-body">18819861381</div>
+          <div id="agenda-user-phone" class="panel-body"></div>
         </div>
       </div>
     </div>
@@ -143,34 +143,6 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-  <div id="agenda-settings" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header"><strong style="font-size:22px;">Settings</strong></div>
-        <div class="modal-body">
-          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
-            <p>Old Password:</p>
-            <input type="password" class="form-control" style="font-size:21px;">
-          </div>
-          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
-            <p>New Password:</p>
-            <input type="password" class="form-control" style="font-size:21px;">
-          </div>
-          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
-            <p>Confirm New Password:</p>
-            <input type="password" class="form-control" style="font-size:21px;">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">Save</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-  </div>
-  <!-- /.modal -->
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -252,6 +224,7 @@
     $(function (){
       if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
         $('#agenda-user-hello').html('Hello, ' + $.cookie('cookie_name'));
+        $('#agenda-user-name').html($.cookie('cookie_name'));
       }
     });
   </script>
