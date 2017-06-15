@@ -28,13 +28,6 @@
       <h1 id="agenda-user-hello"></h1>
       <p>Welcome to Agenda! Now you can check meetings, manage meetings, create new meetings and so on. Just try it!</p>
     </div>
-<<<<<<< HEAD
-    <!-- Message -->
-    <div class="alert alert-warning alert-dismissible" role="alert" style="font-size:18px;">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin:5px;"><span aria-hidden="true">&times;</span></button>      &nbsp;You quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>English</strong></span> !
-    </div>
-=======
->>>>>>> 14ec42b08eacfe6a0255078e24e31faa93d4068d
     <!-- Profile -->
     <div class="page-header">
       <h1>Profile</h1>
@@ -266,7 +259,7 @@
         $.post('/api/agenda/userInfo', {
           id: $.cookie('cookie_id')
         }, (data) => {
-          if (data.status == 'success') {
+          if (data.status == 'successful') {
             $('#agenda-user-email').html(data.email);
             $('#agenda-user-phone').html(data.phone);
           }
