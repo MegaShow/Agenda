@@ -22,18 +22,38 @@ function signup() {
     email: $('#agenda-sign-up-email').val(),
     phone: $('#agenda-sign-up-phone').val()
   }, (data) => {
-    if (data.status == 'success') {
+    if (data.status == 'successful') {
       $.cookie('cookie_name', $('#agenda-sign-up-username').val());
       $.cookie('cookie_id', data.id);
       window.location.href="User.html";
+      return true;
     } else {
       message(data.err);
       return false;
     }
   });
-  return true;
 }
 
+// sign in function
+function signin() {
+  if ($('#in-username').val() == '' || $('#in-password').val() == '') {
+    return false;
+  }
+  $.post('/api/agenda/login', {
+    username: $('#in-username').val(),
+    password: $('#in-password').val()
+  }, (data) => {
+    if (data.status == 'successful') {
+      $.cookie('cookie_name', $('#in-username').val());
+      $.cookie('cookie_id', data.id);
+      window.location.href = "User.html";
+      return true;
+    } else {
+      message(data.err);
+      return false;
+    }
+  });
+}
 
 function modify() {
   if ($('#modify-email').val() == '' || $('#modify-phone').val() == '') {
@@ -51,7 +71,6 @@ function modify() {
 
 function setting() {
   if ($('#setting-old-password').val() == '' || $('#setting-new-password').val() == '' || $('#setting-again-password').val() == '') {
-    message('Incomplete input!');
     return false;
   } else if ($('#setting-new-password').val() != $('#setting-again-password').val()) {
     message('Comfirm failed!');
@@ -62,7 +81,7 @@ function setting() {
     old_password: $('#setting-old-password').val(),
     new_password: $('#setting-new-password').val()
   }, (data) => {
-    if (data.status == 'success') {
+    if (data.status == 'successful') {
       message('Sucessfully setting!');
     } else {
       message(data.err);
@@ -72,25 +91,7 @@ function setting() {
 }
 
 
-// sign in function
-function signin() {
-  if ($('#in-username').val() == '' || $('#in-password').val() == '') {
-    return false;
-  }
-  $.post('/api/agenda/login', {
-    username: $('#in-username').val(),
-    password: $('#in-password').val()
-  }, (data) => {
-    if (data.status == 'success') {
-      $.cookie('cookie_name', $('#in-username').val());
-      $.cookie('cookie_id', data.id);
-      window.location.href = "User.html";
-    } else {
-      message(data.err);
-    }
-  });
-  return true;
-}
+
 
  
 // log out function
@@ -110,7 +111,7 @@ function signoff() {
     name: $('#delete-name').val(),
     password: $('#delete-password').val()
   }, (data) => {
-    if (data.status == 'success') {
+    if (data.status == 'successful') {
       $.cookie('cookie_name', null);
       $.cookie('cookie_id', 0);
       window.location.href = "SignIn.html";
