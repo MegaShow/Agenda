@@ -225,6 +225,14 @@
       if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
         $('#agenda-user-hello').html('Hello, ' + $.cookie('cookie_name'));
         $('#agenda-user-name').html($.cookie('cookie_name'));
+        $.post('/api/agenda/userInfo', {
+          id: $.cookie('cookie_id')
+        }, (data) => {
+          if (data.status == 'success') {
+            $('#agenda-user-email').html(data.email);
+            $('#agenda-user-phone').html(data.phone);
+          }
+        });
       }
     });
   </script>

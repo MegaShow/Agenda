@@ -8,22 +8,32 @@ $(function () {
 
 // sign up function
 function signup() {
-  if ($('#in-username').val() == '' || $('#in-email').val() == '' || $('#in-password').val() == '') {
+  if ($('#agenda-sign-up-username').val() == '' || $('#agenda-sign-up-password').val() == '' 
+    || $('#agenda-sign-up-confirm-password').val() == '' || $('#agenda-sign-up-email').val() == ''
+    || $('#agenda-sign-up-phone').val() == '') {
+    return false;
+  } else if ($('#agenda-sign-up-password').val() != $('#agenda-sign-up-confirm-password').val()) {
+    message('Comfirm failed!');
     return false;
   }
   $.post('/api/agenda/signup', {
-    username: $('#in-username').val(),
-    email: $('#in-email').val(),
-    password: $('#in-password').val()
+    username: $('#agenda-sign-up-username').val(),
+    password: $('#agenda-sign-up-password').val(),
+    email: $('#agenda-sign-up-email').val(),
+    phone: $('#agenda-sign-up-phone').val()
   }, (data) => {
     if (data.status == 'success') {
-      $.cookie('cookie_name', $('#in-username').val());
+      $.cookie('cookie_name', $('#agenda-sign-up-username').val());
       $.cookie('cookie_id', data.id);
-      window.location.reload();
+      window.location.href="User.html";
+    } else {
+      message(data.err);
+      return false;
     }
   });
   return true;
 }
+
 
 function modify() {
   if ($('#modify-email').val() == '' || $('#modify-phone').val() == '') {
@@ -34,7 +44,29 @@ function modify() {
     email: $('#modify-email').val(),
     phone: $('#modify-phone').val()
   }, (data) => {
-    message('Sucessfully modify!');
+    window.location.reload();
+  });
+  return true;
+}
+
+function setting() {
+  if ($('#setting-old-password').val() == '' || $('#setting-new-password').val() == '' || $('#setting-again-password').val() == '') {
+    message('Incomplete input!');
+    return false;
+  } else if ($('#setting-new-password').val() != $('#setting-again-password').val()) {
+    message('Comfirm failed!');
+    return false;
+  }
+  $.post('/api/agenda/setting', {
+    id: $.cookie('cookie_id'),
+    old_password: $('#setting-old-password').val(),
+    new_password: $('#setting-new-password').val()
+  }, (data) => {
+    if (data.status == 'success') {
+      message('Sucessfully setting!');
+    } else {
+      message(data.err);
+    }
   });
   return true;
 }
@@ -65,7 +97,26 @@ function signin() {
 function logout() {
   $.cookie('cookie_name', null);
   $.cookie('cookie_id', 0);
-  $('#nav-username').html('No sign in'+'<span class="caret"></span>');
   window.location.href = "SignIn.html";
 }
 
+//delete
+function signoff() {
+  if ($('#delete-name').val() == '' || $('#delete-password').val() == '') {
+    return false;
+  }
+  $.post('/api/agenda/delete', {
+    id: $.cookie('cookie_id'),
+    name: $('#delete-name').val(),
+    password: $('#delete-password').val()
+  }, (data) => {
+    if (data.status == 'success') {
+      $.cookie('cookie_name', null);
+      $.cookie('cookie_id', 0);
+      window.location.href = "SignIn.html";
+    } else {
+      message(data.err);
+    }
+  });
+  return true;
+}

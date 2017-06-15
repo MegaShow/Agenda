@@ -14,7 +14,7 @@
       <ul class="nav navbar-nav">
         <li><a href="#">User</a></li>
         <li><a href="#">Meeting</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="../agenda">About</a></li>
       </ul>
       <ul id="agenda-nav-right" class="nav navbar-nav navbar-right">
         <li id="agenda-nav-right-add">
@@ -59,10 +59,16 @@
                     Setting
                   </a>
               </li>
+              <li align="middle">
+                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-delete" aria-haspopup="true" aria-expanded="false"
+                  style="font-size:18px;">
+                    Delete
+                  </a>
+              </li>
               <li role="separator" class="divider"></li>
               <li align="middle" style="padding-bottom:4px">
                 <div class="btn-group" role="group" aria-label="log-out">
-                  <button type="button" onclick="logout()" class="btn btn-warning btn-block">Log out</button>
+                  <button type="button" onclick="logout()" class="btn btn-warning btn-block">Sign Out</button>
                 </div>
               </li>
             </div>
@@ -98,7 +104,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a type="button" onclick="modify()" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+          <a type="button" onclick="modify()" class="btn btn-primary" style="font-size:18px;">Save</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -109,7 +115,7 @@
   <div id="agenda-setting" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header"><strong style="font-size:22px;">Settings</strong></div>
+        <div class="modal-header"><strong style="font-size:22px;">Setting</strong></div>
         <div class="modal-body">
           <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
             <p>Old Password:</p>
@@ -126,7 +132,32 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a type="button" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+          <a type="button" onclick="setting()" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  
+  <div id="agenda-delete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Delete</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Username:</p>
+            <input id="delete-name" type="password" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Password:</p>
+            <input id="delete-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" onclick="delete()" class="btn btn-danger" data-dismiss="modal" style="font-size:18px;">Delete</a>
         </div>
       </div>
       <!-- /.modal-content -->
