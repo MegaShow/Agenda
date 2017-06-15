@@ -15,6 +15,8 @@ import android.view.MenuItem
 import android.content.Intent
 import android.content.Context
 import android.net.Uri
+import java.net.HttpURLConnection
+import java.net.URL
 import android.R.id.edit
 import android.content.SharedPreferences.Editor
 import android.content.SharedPreferences
@@ -22,8 +24,10 @@ import android.support.annotation.Nullable
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-
-
+import org.json.JSONObject
+import android.os.AsyncTask.execute
+import okhttp3.*
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -114,22 +118,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val id = item.itemId
 
         if (id == R.id.nav_mymeeting) {
-            // Handle the camera action
-            val nameText = findViewById(R.id.NameTextView) as TextView
-            val emailText = findViewById(R.id.EmailTextView) as TextView
-            if (cookie_id != 0) {
-                nameText.setText(cookie_name)
-                emailText.setText(cookie_email)
-            } else {
-                nameText.setText("No sign in")
-                emailText.setText("")
-            }
+
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_logout) {
-
+            val ctx = this@MainActivity
+            val sp = ctx.getSharedPreferences("agenda", Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putInt("cookie_id", 0)
+            editor.putString("cookie_name", "")
+            editor.putString("cookie_email", "")
+            editor.commit()
+            cookie_id = 0
+            cookie_name = ""
+            cookie_email = ""
         } else if (id == R.id.nav_signin) {
-            //setContentView(R.layout.signin_layout)
             val editName = findViewById(R.id.editText) as EditText
             val editPassword = findViewById(R.id.editText2) as EditText
             val button = findViewById(R.id.button2) as Button
@@ -148,13 +151,42 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun onClick(v: View?) {
-        //val uri = Uri.parse("https://github.com/FantasticGold/")
-        //val intent = Intent(Intent.ACTION_VIEW, uri)
-        //startActivity(intent)
-        setContentView(R.layout.signin_layout)
+        val uri = Uri.parse("https://github.com/FantasticGold/")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
-    fun signin(v: View?) {
-        setContentView(R.layout.signin_layout)
+    fun onClickSignIn(v: View?) {
+        val editName = findViewById(R.id.editText) as EditText
+        val editPassword = findViewById(R.id.editText2) as EditText
+        val url = "https://icytown.com/api/agenda/login/"
+        val okHttpClient = OkHttpClient()
+        val body = FormBody.Builder()
+                .add("username", editName.getText().toString())
+                .add("password", editPassword.getText().toString())
+                .build()
+        val request = Request.Builder()
+                .url(url)
+                .post(body)
+                .build()
+        val call = okHttpClient.newCall(request)
+        call.enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+                val res = response.body().string()
+                val status = json.getStatus(res)
+                if (status == "successful") {
+                    cookie_id = json.getId(res)
+                }
+            }
+        })
+        val text = findViewById(R.id.textView3) as TextView
+        text.setText(cookie_id.toString())
     }
+
+
 }
