@@ -8,20 +8,16 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-      <a class="navbar-brand" href="index.html" style="font-size:32px;">Agenda</a>
+      <a id="nav-index" class="navbar-brand" href="index.html" style="font-size:32px;">Agenda</a>
+      <a id="nav-top" class="navbar-brand" href="#top" style="font-size:32px;">Agenda</a>
     </div>
     <div class="collapse navbar-collapse" id="agenda-nav">
-      <ul class="nav navbar-nav">
+      <ul id="agenda-god" class="nav navbar-nav">
         <li><a href="alluser.html">User</a></li>
         <li><a href="meeting.html">Meeting</a></li>
         <li><a href="../agenda">About</a></li>
       </ul>
-      <ul id="agenda-nav-right" class="nav navbar-nav navbar-right">
-        <li id="agenda-nav-right-add">
-          <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
-            </a>
-        </li>
+      <ul id="agenda-nav-sign" class="nav navbar-nav navbar-right">
         <li class="dropdown" id="agenda-nav-right-cog">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -41,37 +37,49 @@
                   </a>
               </li>
             </div>
-            <div id="agenda-nav-user">
-              <li align="middle">
-                <div style="font-size:18px;padding-top:6px">Sign in as</div>
-                <div id="agenda-nav-user-name" style="padding-top:6px;font-size:24px;"></div>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li align="middle">
-                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
-                  style="font-size:18px;">
-                    Modify
+          </ul>
+        </li>
+      </ul>
+      <ul id="agenda-nav-user" class="nav navbar-nav navbar-right">
+        <li id="agenda-nav-right-add">
+          <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li class="dropdown" id="agenda-nav-right-cog">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            </a>
+          <ul class="dropdown-menu">
+            <li align="middle">
+              <div style="font-size:18px;padding-top:6px">Sign in as</div>
+              <div id="agenda-nav-user-name" style="padding-top:6px;font-size:24px;"></div>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Modify
+              </a>
+            </li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-setting" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Setting
                 </a>
-              </li>
-              <li align="middle">
-                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-setting" aria-haspopup="true" aria-expanded="false"
-                  style="font-size:18px;">
-                    Setting
-                  </a>
-              </li>
-              <li align="middle">
-                <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-delete" aria-haspopup="true" aria-expanded="false"
-                  style="font-size:18px;">
-                    Delete
-                  </a>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li align="middle" style="padding-bottom:4px">
-                <div class="btn-group" role="group" aria-label="log-out">
-                  <button type="button" onclick="logout()" class="btn btn-warning btn-block">Sign Out</button>
-                </div>
-              </li>
-            </div>
+            </li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-delete" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Delete
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li align="middle" style="padding-bottom:4px">
+              <div class="btn-group" role="group" aria-label="log-out">
+                <button type="button" onclick="logout()" class="btn btn-warning btn-block">Sign Out</button>
+              </div>
+            </li>
           </ul>
         </li>
       </ul>
@@ -81,7 +89,7 @@
 </nav>
 
 <div class="modal fade" id="agenda-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog" role="document" style="margin-top:65px">
     <div class="modal-content">
       <div id="agenda-modal-html" class="modal-body"></div>
     </div>
@@ -89,7 +97,7 @@
 </div>
 
 <div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
       <div class="modal-content">
         <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
         <div class="modal-body">
@@ -104,7 +112,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a type="button" onclick="modify()" class="btn btn-primary" style="font-size:18px;">Save</a>
+          <a type="button" onclick="modify()" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Save</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -113,7 +121,7 @@
   </div>
   <!-- /.modal -->
   <div id="agenda-setting" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
       <div class="modal-content">
         <div class="modal-header"><strong style="font-size:22px;">Setting</strong></div>
         <div class="modal-body">
@@ -142,7 +150,7 @@
   <!-- /.modal -->
   
   <div id="agenda-delete" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
       <div class="modal-content">
         <div class="modal-header"><strong style="font-size:22px;">Delete</strong></div>
         <div class="modal-body">
@@ -174,16 +182,20 @@
       }
       $('#agenda-nav-user-name').html($.cookie('cookie_name'));
       $('#agenda-nav-sign').hide();
+      $('#nav-index').hide();
+      $('#agenda-god').hide();
     } else {
+      $('#agenda-nav-user').hide();
       if (window.location.pathname == "/agenda/User.html") {
         window.location.href = "SignIn.html";
       } else if (window.location.pathname == "/agenda/SignIn.html") {
         $('#agenda-nav-sign-up').hide();
+        $('#agenda-god').hide();
       } else if (window.location.pathname == "/agenda/SignUp.html") {
         $('#agenda-nav-sign-in').hide();
+        $('#agenda-god').hide();
       }
-      $('#agenda-nav-right-add').hide();
-      $('#agenda-nav-user').hide();
+      $('#nav-top').hide();
     }
   });
 

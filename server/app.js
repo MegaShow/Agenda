@@ -50,7 +50,7 @@ app.post('/agenda/login', (req, res, next) => {
   console.log('Event: User Sign In');
   console.log('User: ' + username);
   console.log('Password: ' + password);
-  sqlModule.query("SELECT * FROM `user` WHERE `name` = '" + username + "';", (vals, isNull) => {
+  sqlModule.query("SELECT * FROM `user` WHERE binary `name` = '" + username + "';", (vals, isNull) => {
     if (isNull) {
       console.log('User doesn\'t exist.\n');
       res.send({ status: 'failed', err: 'User doesn\'t exist!' });
@@ -69,15 +69,15 @@ app.post('/agenda/login', (req, res, next) => {
 app.post('/agenda/userInfo', (req, res, next) => {
   var id = sqlModule.dealEscape(req.body.id);
   console.log('Event: User Info');
-  console.log('ID: ' + id);
+  console.log('ID: ' + id + '\n');
   sqlModule.query("SELECT * FROM `user` WHERE `id` = " + id + ";", (vals, isNull) => {
     if (isNull) {
-      console.log('Failed.\n');
+      console.log('User Info failed.\n');
       res.send({ status: 'failed' });
     } else {
       _email = vals[0].email;
       _phone = vals[0].phone;
-      console.log('Successful.\n');
+      console.log('User Info successful.\n');
       res.send({ status: 'successful', email: _email, phone: _phone });
     }
   });
@@ -145,6 +145,36 @@ app.post('/agenda/signoff', (req, res, next) => {
       res.send({ status: 'successful' });
     }
   });
+});
+
+app.post('/agenda/sponsor_meeting', (req, res, next) => {
+  var name = sqlModule.dealEscape(req.body.name);
+  console.log('Event: Get Sponsor Meeting');
+  console.log('Name: ' + name + '\n');
+  sqlModule.query("SELECT * FROM `meeting` WHERE binary `sponsor` LIKE '" + name + "' ORDER BY `sponsor` ASC", (vals, isNull) => {
+    if (isNull) {
+      console.log('Sponsor failed. No sponsor meeting.\n');
+      res.send({ status: 'failed'});
+    } else {
+      console.log('Sponsor successful.\n');
+      res.send({ status: 'successful', meetings: vals });
+    }
+  })
+});
+
+app.post('/agenda/part_meeting', (req, res, next) => {
+  var name = sqlModule.dealEscape(req.body.name);
+  console.log('Event: Get Participator Meeting');
+  console.log('Name: ' + name + '\n');
+  sqlModule.query("SELECT * FROM `meeting` WHERE binary `part` LIKE '%" + name + "%' ORDER BY `sponsor` ASC", (vals, isNull) => {
+    if (isNull) {
+      console.log('Paticipator failed. No paticipator meeting.\n');
+      res.send({ status: 'failed'});
+    } else {
+      console.log('Sponsor successful.\n');
+      res.send({ status: 'successful', meetings: vals });
+    }
+  })
 });
 
 // 获取会议信息

@@ -71,37 +71,7 @@
               <th></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Math</td>
-              <td>Gold</td>
-              <td>9999-12-31/23:58</td>
-              <td>9999-12-31/23:59</td>
-              <td>Mega</td>
-              <td>
-                <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-edit">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-              </a>&nbsp;
-                <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-delete">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-              </a>
-              </td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Java</td>
-              <td>Mega</td>
-              <td>1000-01-01/00:00</td>
-              <td>1000-01-01/00:01</td>
-              <td>Gold</td>
-              <td>
-                <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-quit">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
-              </a>
-              </td>
-            </tr>
-          </tbody>
+          <tbody id="meeting-list-table"></tbody>
         </table>
       </div>
     </div>
@@ -262,6 +232,72 @@
           if (data.status == 'successful') {
             $('#agenda-user-email').html(data.email);
             $('#agenda-user-phone').html(data.phone);
+          }
+        });
+        var count = 0;
+        $.post('/api/agenda/sponsor_meeting', {
+          name: $.cookie('cookie_name')
+        }, (data) => {
+          if (data.status == 'successful') {
+            for (const i of data.meetings) {
+              count += 1;
+              $('#meeting-list-table').append('\
+              <tr>\
+                <td>' + count + '</td>\
+                <td>' + i.title + '</td>\
+                <td>' + i.sponsor + '</td>\
+                <td>' + i.start + '</td>\
+                <td>' + i.end + '</td>\
+                <td>' + i.part + '</td>\
+                <td>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-edit">\
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                  </a>&nbsp;\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-delete">\
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                  </a>\
+                </td>\
+              </tr>');
+              $('#meeting-list-table').trigger('create');
+            }        
+          }
+        });
+        $.post('/api/agenda/part_meeting', {
+          name: $.cookie('cookie_name')
+        }, (data) => {
+          if (data.status == 'successful') {
+            for (const i of data.meetings) {
+              count += 1;
+              $('#meeting-list-table').append('\
+              <tr>\
+                <td>' + count + '</td>\
+                <td>' + i.title + '</td>\
+                <td>' + i.sponsor + '</td>\
+                <td>' + i.start + '</td>\
+                <td>' + i.end + '</td>\
+                <td>' + i.part + '</td>\
+                <td>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-quit">\
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
+                  </a>\
+                </td>\
+              </tr>');
+              $('#meeting-list-table').trigger('create');
+            }     
+          } else {
+            if (count == 0) {
+              $('#meeting-list-table').append('\
+              <tr>\
+                <td></td>\
+                <td>None</td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+                <td></td>\
+              </tr>');
+              $('#meeting-list-table').trigger('create'); 
+            }
           }
         });
       }

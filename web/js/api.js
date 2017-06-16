@@ -73,7 +73,7 @@ function setting() {
   if ($('#setting-old-password').val() == '' || $('#setting-new-password').val() == '' || $('#setting-again-password').val() == '') {
     return false;
   } else if ($('#setting-new-password').val() != $('#setting-again-password').val()) {
-    message('Comfirm failed!');
+    message('Comfirm password error!');
     return false;
   }
   $.post('/api/agenda/setting', {
@@ -82,7 +82,7 @@ function setting() {
     new_password: $('#setting-new-password').val()
   }, (data) => {
     if (data.status == 'successful') {
-      message('Sucessfully setting!');
+      window.location.reload();
     } else {
       message(data.err);
     }
