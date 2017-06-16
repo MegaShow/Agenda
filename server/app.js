@@ -192,7 +192,7 @@ app.post('/agenda/meeting', (req, res, next) => {
 });
 
 
-// 获取会议信息
+// 获取用户信息
 app.post('/agenda/user', (req, res, next) => {
   console.log('Event: Get User List');
   sqlModule.query("SELECT * FROM `user`;", (vals, isNull) => {

@@ -131,7 +131,7 @@
           </script>
           <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
             <p>Paticipators:</p>
-            <input type="text" class="form-control" placeholder="e.g. Gold Mega" style="font-size:21px;">
+            <div id="agenda-create-part"></div>
           </div>
         </div>
         <div class="modal-footer">
@@ -258,8 +258,8 @@
                   </a>\
                 </td>\
               </tr>');
-              $('#meeting-list-table').trigger('create');
-            }        
+            }
+            $('#meeting-list-table').trigger('create');
           }
         });
         $.post('/api/agenda/part_meeting', {
@@ -282,8 +282,8 @@
                   </a>\
                 </td>\
               </tr>');
-              $('#meeting-list-table').trigger('create');
-            }     
+            }
+            $('#meeting-list-table').trigger('create');
           } else {
             if (count == 0) {
               $('#meeting-list-table').append('\
@@ -296,9 +296,22 @@
                 <td></td>\
                 <td></td>\
               </tr>');
-              $('#meeting-list-table').trigger('create'); 
+              $('#meeting-list-table').trigger('create');
             }
           }
+        });
+        $('#agenda-create').on('show.bs.modal', function (e) {
+          $.post('/api/agenda/user/', {}, (data) => {
+            if (data.status == 'successful') {
+              $('#agenda-create-part').empty();
+              for (const i of data.user) {
+                if (i.name != $.cookie('cookie_name')) {
+                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" name="part" style="font-size:21px;">' + i.name + '</label>');
+                }              
+              }
+              $('#agenda-create-part').trigger('create');
+            }
+          });
         });
       }
     });
