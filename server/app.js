@@ -147,6 +147,35 @@ app.post('/agenda/signoff', (req, res, next) => {
   });
 });
 
+// 获取会议信息
+app.post('/agenda/meeting', (req, res, next) => {
+  console.log('Event: Get Meeting List');
+  sqlModule.query("SELECT * FROM `meeting`;", (vals, isNull) => {
+    if (isNull) {
+      console.log('No meeting\n');
+      res.send({ status: 'failed'});
+    } else {
+      console.log('Success\n');
+      res.send({ status: 'successful', meeting: vals });
+    }
+  })
+});
+
+
+// 获取会议信息
+app.post('/agenda/user', (req, res, next) => {
+  console.log('Event: Get User List');
+  sqlModule.query("SELECT * FROM `user`;", (vals, isNull) => {
+    if (isNull) {
+      console.log('No user\n');
+      res.send({ status: 'failed'});
+    } else {
+      console.log('Success\n');
+      res.send({ status: 'successful', user: vals });
+    }
+  })
+});
+
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
