@@ -150,7 +150,7 @@ app.post('/agenda/signoff', (req, res, next) => {
 app.post('/agenda/sponsor_meeting', (req, res, next) => {
   var name = sqlModule.dealEscape(req.body.name);
   console.log('Event: Get Sponsor Meeting');
-  console.log('Name: ' + name + '\n');
+  console.log('Name: ' + name);
   sqlModule.query("SELECT * FROM `meeting` WHERE binary `sponsor` LIKE '" + name + "' ORDER BY `sponsor` ASC", (vals, isNull) => {
     if (isNull) {
       console.log('Sponsor failed. No sponsor meeting.\n');
@@ -165,7 +165,7 @@ app.post('/agenda/sponsor_meeting', (req, res, next) => {
 app.post('/agenda/part_meeting', (req, res, next) => {
   var name = sqlModule.dealEscape(req.body.name);
   console.log('Event: Get Participator Meeting');
-  console.log('Name: ' + name + '\n');
+  console.log('Name: ' + name);
   sqlModule.query("SELECT * FROM `meeting` WHERE binary `part` LIKE '%" + name + "%' ORDER BY `sponsor` ASC", (vals, isNull) => {
     if (isNull) {
       console.log('Paticipator failed. No paticipator meeting.\n');
@@ -214,7 +214,20 @@ app.post('/agenda/hastime', (req, res, next) => {
     if (isNull) {
       res.send({ status: 'successful' });
     } else {
-      res.send({ status: 'failed' });
+      for (var i of vals) {
+        if (name == i.sponsor) {
+          res.send({ status: 'failed', err: name + ' has no time' });
+          return;
+        }
+        var arr = i.part.split(',');
+        for (var k of arr) {
+          if (name == k) {
+            res.send({ status: 'failed', err: name + ' has no time' });
+            return;
+          }
+        }
+      }
+      res.send({ status: 'successful' });
     }
   })
 });
@@ -241,7 +254,7 @@ app.post('/agenda/create', (req, res, next) => {
           id = vals[0].var;
           id++;
           console.log('id: ' + id);
-          sqlModule.query("UPDATE `globe` SET `var` = '" + id + "' WHERE `globe`.`keyvar` = 0;");
+          sqlModule.query("UPDATE `globe` SET `var` = '" + id + "' WHERE `globe`.`keyvar` = 1;");
           sqlModule.query("INSERT INTO `meeting` (`id`, `title`, `sponsor`, `start`, `end`, `part`) \
                           VALUES ('"+ id + "', '" + title + "', '" + sponsor + "', '" + start + "', '" + end + "', '" + part + "');");
           console.log('Successful.\n');

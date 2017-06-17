@@ -131,7 +131,7 @@ function createMeeting() {
       for (const i of data.user) {
         if (i.name != $.cookie('cookie_name')) {
           if ($('input[value="'+i.name+'"]').is(':checked') == true) {
-            part += i.name + ' ';
+            part += i.name + ',';
             var flag = true;
             $.post('/api/agenda/hastime', {
               username: i.name,
