@@ -206,6 +206,19 @@ app.post('/agenda/user', (req, res, next) => {
   })
 });
 
+app.post('/agenda/hastime', (req, res, next) => {
+  var name = sqlModule.dealEscape(req.body.username);
+  var start = sqlModule.dealEscape(req.body.start);
+  var end = sqlModule.dealEscape(req.body.end);
+  sqlModule.query("SELECT * FROM `meeting` WHERE `start` < '" + end + "' AND `end` > '" + start + "'", (vals, isNull) => {
+    if (isNull) {
+      res.send({ status: 'successful' });
+    } else {
+      res.send({ status: 'failed' });
+    }
+  })
+});
+
 app.post('/agenda/create', (req, res, next) => {
   var sponsor = sqlModule.dealEscape(req.body.sponsor);
   var title = sqlModule.dealEscape(req.body.title);
@@ -218,7 +231,28 @@ app.post('/agenda/create', (req, res, next) => {
   console.log('Participator: ' + part);
   console.log('Start Time: ' + start);
   console.log('End Time: ' + end);
-  res.send({});
+  sqlModule.query("SELECT * FROM `meeting` WHERE binary `title` = '" + title + "';", (vals, isNull) => {
+    if (isNull) {
+      sqlModule.query("SELECT * FROM `globe` WHERE `name` = 'meeting';", (vals, isNull) => {
+        if (isNull) {
+          console.log('Select globe meeting error!!!');
+          res.send({ status: 'failed' });
+        } else {
+          id = vals[0].var;
+          id++;
+          console.log('id: ' + id);
+          sqlModule.query("UPDATE `globe` SET `var` = '" + id + "' WHERE `globe`.`keyvar` = 0;");
+          sqlModule.query("INSERT INTO `meeting` (`id`, `title`, `sponsor`, `start`, `end`, `part`) \
+                          VALUES ('"+ id + "', '" + title + "', '" + sponsor + "', '" + start + "', '" + end + "', '" + part + "');");
+          console.log('Successful.\n');
+          res.send({ status: 'successful' });
+        }
+      });
+    } else {
+      console.log('Failed. The title has been used.\n');
+      res.send({ status: 'failed', err: 'The title has been used!' });
+    }
+  });
 });
 
 

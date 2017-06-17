@@ -86,9 +86,9 @@
         <div class="modal-body">
           <div class="input-group col-sm-6 col-xs-8" style="padding:10px;">
             <p>Title:</p>
-            <input id="agenda-create-title" type="text" class="form-control" placeholder="e.g. C++" style="font-size:21px;">
+            <input id="agenda-create-title" type="text" class="form-control" style="font-size:21px;">
           </div>
-          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+          <div class="input-group col-sm-8 col-xs-10" style="padding-left:10px;padding-top:10px;">
             <p>Start Time:</p>
             <div class="form-group">
               <div class='input-group date' id='agenda-create-start-time'>
@@ -99,7 +99,7 @@
               </div>
             </div>
           </div>
-          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+          <div class="input-group col-sm-8 col-xs-10" style="padding-left:10px;padding-top:5px;">
             <p>End Time:</p>
             <div class="form-group">
               <div class='input-group date' id='agenda-create-end-time'>
@@ -129,14 +129,14 @@
               });
             });
           </script>
-          <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
-            <p>Paticipators:</p>
+          <div class="input-group col-sm-10  col-xs-12" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+            <p style="margin-bottom:5px;">Paticipators:</p>
             <div id="agenda-create-part"></div>
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a onclick="createMeeting()" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+          <a onclick="createMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Create</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -309,6 +309,10 @@
                   $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" value="'+i.name+'" style="font-size:21px;">' + i.name + '</label>');
                 }              
               }
+              $('#agenda-create-part').trigger('create');
+            } else {
+              $('#agenda-create-part').empty();
+              $('#agenda-create-part').append('None');
               $('#agenda-create-part').trigger('create');
             }
           });

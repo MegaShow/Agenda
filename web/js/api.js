@@ -120,22 +120,18 @@ function signoff() {
 
 // create meeting
 function createMeeting() {
-  if ($('#agenda-create-title').val() == '') {
+  if ($('#agenda-create-title').val() == '' ||
+    $('#agenda-create-start-time-val').val() == '' ||
+    $('#agenda-create-end-time-val').val() == '') {
     return false;
   }
-  $.post('/api/agenda/user/', {}, (udata) => {
-    if (udata.status == 'successful') {
+  $.post('/api/agenda/user/', {}, (data) => {
+    if (data.status == 'successful') {
       var part = '';
-      var meeting;
-      $.post('/api/agenda/meeting/', {}, (mdata) => {
-        if (mdata.status == 'successful') {
-          
-        }
-      })
       for (const i of data.user) {
         if (i.name != $.cookie('cookie_name')) {
           if ($('input[value="'+i.name+'"]').is(':checked') == true) {
-            part += i.name + ',';
+            part += i.name + ' ';
             var flag = true;
             $.post('/api/agenda/hastime', {
               username: i.name,
@@ -147,10 +143,14 @@ function createMeeting() {
               }
             });
             if (flag == false) {
+              message('<span class="glyphicon glyphicon-user" aria-hidden="true"></span>' + i.name + ' has no time!');
               return false;
             }
           }
         }
+      }
+      if (part == '') {
+        return false;
       }
       $.post('/api/agenda/create/', {
         title: $('#agenda-create-title').val(),
@@ -160,7 +160,9 @@ function createMeeting() {
         end: $('#agenda-create-end-time-val').val(),        
       }, (data) => {
         if (data.status == 'successful') {
-          
+          window.location.reload();
+        } else {
+          message(data.err);
         }
       });
     }
