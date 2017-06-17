@@ -18,7 +18,7 @@ app.post('/agenda/signup', (req, res, next) => {
   console.log('Password: ' + password);
   console.log('Email: ' + email);
   console.log('Phone: ' + phone);
-  sqlModule.query("SELECT * FROM `user` WHERE `name` = '" + username + "';", (vals, isNull) => {
+  sqlModule.query("SELECT * FROM `user` WHERE binary `name` = '" + username + "';", (vals, isNull) => {
     if (isNull) {
       sqlModule.query("SELECT * FROM `globe` WHERE `name` = 'user';", (vals, isNull) => {
         if (isNull) {

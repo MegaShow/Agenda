@@ -261,44 +261,44 @@
             }
             $('#meeting-list-table').trigger('create');
           }
-        });
-        $.post('/api/agenda/part_meeting', {
-          name: $.cookie('cookie_name')
-        }, (data) => {
-          if (data.status == 'successful') {
-            for (const i of data.meetings) {
-              count += 1;
-              $('#meeting-list-table').append('\
-              <tr>\
-                <td>' + count + '</td>\
-                <td>' + i.title + '</td>\
-                <td>' + i.sponsor + '</td>\
-                <td>' + i.start + '</td>\
-                <td>' + i.end + '</td>\
-                <td>' + i.part + '</td>\
-                <td>\
-                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-quit">\
-                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
-                  </a>\
-                </td>\
-              </tr>');
-            }
-            $('#meeting-list-table').trigger('create');
-          } else {
-            if (count == 0) {
-              $('#meeting-list-table').append('\
-              <tr>\
-                <td></td>\
-                <td>None</td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-                <td></td>\
-              </tr>');
+          $.post('/api/agenda/part_meeting', {
+            name: $.cookie('cookie_name')
+          }, (data) => {
+            if (data.status == 'successful') {
+              for (const i of data.meetings) {
+                count += 1;
+                $('#meeting-list-table').append('\
+                <tr>\
+                  <td>' + count + '</td>\
+                  <td>' + i.title + '</td>\
+                  <td>' + i.sponsor + '</td>\
+                  <td>' + i.start + '</td>\
+                  <td>' + i.end + '</td>\
+                  <td>' + i.part + '</td>\
+                  <td>\
+                    <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-quit">\
+                      <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
+                    </a>\
+                  </td>\
+                </tr>');
+              }
               $('#meeting-list-table').trigger('create');
+            } else {
+              if (count == 0) {
+                $('#meeting-list-table').append('\
+                <tr>\
+                  <td></td>\
+                  <td>None</td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                </tr>');
+                $('#meeting-list-table').trigger('create');
+              }
             }
-          }
+          });
         });
         $('#agenda-create').on('show.bs.modal', function (e) {
           $.post('/api/agenda/user/', {}, (data) => {
