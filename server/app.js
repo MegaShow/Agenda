@@ -154,7 +154,7 @@ app.post('/agenda/sponsor_meeting', (req, res, next) => {
   sqlModule.query("SELECT * FROM `meeting` WHERE binary `sponsor` LIKE '" + name + "' ORDER BY `sponsor` ASC", (vals, isNull) => {
     if (isNull) {
       console.log('Sponsor failed. No sponsor meeting.\n');
-      res.send({ status: 'failed'});
+      res.send({ status: 'failed' });
     } else {
       console.log('Sponsor successful.\n');
       res.send({ status: 'successful', meetings: vals });
@@ -169,7 +169,7 @@ app.post('/agenda/part_meeting', (req, res, next) => {
   sqlModule.query("SELECT * FROM `meeting` WHERE binary `part` LIKE '%" + name + "%' ORDER BY `sponsor` ASC", (vals, isNull) => {
     if (isNull) {
       console.log('Paticipator failed. No paticipator meeting.\n');
-      res.send({ status: 'failed'});
+      res.send({ status: 'failed' });
     } else {
       console.log('Sponsor successful.\n');
       res.send({ status: 'successful', meetings: vals });
@@ -183,7 +183,7 @@ app.post('/agenda/meeting', (req, res, next) => {
   sqlModule.query("SELECT * FROM `meeting`;", (vals, isNull) => {
     if (isNull) {
       console.log('No meeting\n');
-      res.send({ status: 'failed'});
+      res.send({ status: 'failed' });
     } else {
       console.log('Success\n');
       res.send({ status: 'successful', meeting: vals });
@@ -198,13 +198,29 @@ app.post('/agenda/user', (req, res, next) => {
   sqlModule.query("SELECT * FROM `user`;", (vals, isNull) => {
     if (isNull) {
       console.log('No user\n');
-      res.send({ status: 'failed'});
+      res.send({ status: 'failed' });
     } else {
       console.log('Success\n');
       res.send({ status: 'successful', user: vals });
     }
   })
 });
+
+app.post('/agenda/create', (req, res, next) => {
+  var sponsor = sqlModule.dealEscape(req.body.sponsor);
+  var title = sqlModule.dealEscape(req.body.title);
+  var part = sqlModule.dealEscape(req.body.participator);
+  var start = sqlModule.dealEscape(req.body.start);
+  var end = sqlModule.dealEscape(req.body.end);
+  console.log('Event: Create Meeting');
+  console.log('Sponsor: ' + sponsor);
+  console.log('Title: ' + title);
+  console.log('Participator: ' + part);
+  console.log('Start Time: ' + start);
+  console.log('End Time: ' + end);
+  res.send({});
+});
+
 
 
 app.get('/', function (req, res) {

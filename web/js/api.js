@@ -8,7 +8,7 @@ $(function () {
 
 // sign up function
 function signup() {
-  if ($('#agenda-sign-up-username').val() == '' || $('#agenda-sign-up-password').val() == '' 
+  if ($('#agenda-sign-up-username').val() == '' || $('#agenda-sign-up-password').val() == ''
     || $('#agenda-sign-up-confirm-password').val() == '' || $('#agenda-sign-up-email').val() == ''
     || $('#agenda-sign-up-phone').val() == '') {
     return false;
@@ -25,7 +25,7 @@ function signup() {
     if (data.status == 'successful') {
       $.cookie('cookie_name', $('#agenda-sign-up-username').val());
       $.cookie('cookie_id', data.id);
-      window.location.href="User.html";
+      window.location.href = "User.html";
       return true;
     } else {
       message(data.err);
@@ -90,10 +90,6 @@ function setting() {
   return true;
 }
 
-
-
-
- 
 // log out function
 function logout() {
   $.cookie('cookie_name', null);
@@ -121,3 +117,53 @@ function signoff() {
   });
   return true;
 }
+
+// create meeting
+function createMeeting() {
+  if ($('#agenda-create-title').val() == '') {
+    return false;
+  }
+  $.post('/api/agenda/user/', {}, (udata) => {
+    if (udata.status == 'successful') {
+      var part = '';
+      var meeting;
+      $.post('/api/agenda/meeting/', {}, (mdata) => {
+        if (mdata.status == 'successful') {
+          
+        }
+      })
+      for (const i of data.user) {
+        if (i.name != $.cookie('cookie_name')) {
+          if ($('input[value="'+i.name+'"]').is(':checked') == true) {
+            part += i.name + ',';
+            var flag = true;
+            $.post('/api/agenda/hastime', {
+              username: i.name,
+              start: $('#agenda-create-start-time-val').val(),
+              end: $('#agenda-create-end-time-val').val()
+            }, (data) => {
+              if (data.status == 'failed') {
+                flag = false;
+              }
+            });
+            if (flag == false) {
+              return false;
+            }
+          }
+        }
+      }
+      $.post('/api/agenda/create/', {
+        title: $('#agenda-create-title').val(),
+        sponsor: $.cookie('cookie_name'),
+        participator: part,
+        start: $('#agenda-create-start-time-val').val(),
+        end: $('#agenda-create-end-time-val').val(),        
+      }, (data) => {
+        if (data.status == 'successful') {
+          
+        }
+      });
+    }
+  });
+}
+

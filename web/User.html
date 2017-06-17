@@ -86,13 +86,13 @@
         <div class="modal-body">
           <div class="input-group col-sm-6 col-xs-8" style="padding:10px;">
             <p>Title:</p>
-            <input type="text" class="form-control" placeholder="e.g. C++" style="font-size:21px;">
+            <input id="agenda-create-title" type="text" class="form-control" placeholder="e.g. C++" style="font-size:21px;">
           </div>
           <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
             <p>Start Time:</p>
             <div class="form-group">
-              <div class='input-group date' id='start-time'>
-                <input type='text' class="form-control" style="font-size:21px;">
+              <div class='input-group date' id='agenda-create-start-time'>
+                <input id='agenda-create-start-time-val' type='text' class="form-control" style="font-size:21px;">
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -102,8 +102,8 @@
           <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
             <p>End Time:</p>
             <div class="form-group">
-              <div class='input-group date' id='end-time'>
-                <input type='text' class="form-control" style="font-size:21px;">
+              <div class='input-group date' id='agenda-create-end-time'>
+                <input id="agenda-create-end-time-val" type='text' class="form-control" style="font-size:21px;">
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -113,18 +113,18 @@
           <script type="text/javascript">
             $(function () {
               $(function () {
-                $('#start-time').datetimepicker({
-                  format: 'YYYY-MM-DD/hh:mm A'
+                $('#agenda-create-start-time').datetimepicker({
+                  format: 'YYYY-MM-DD/HH:mm'
                 });
-                $('#end-time').datetimepicker({
-                  format: 'YYYY-MM-DD/hh:mm A',
+                $('#agenda-create-end-time').datetimepicker({
+                  format: 'YYYY-MM-DD/HH:mm',
                   useCurrent: false //Important! See issue #1075
                 });
-                $("#start-time").on("dp.change", function (e) {
-                  $('#end-time').data("DateTimePicker").minDate(e.date);
+                $("#agenda-create-start-time").on("dp.change", function (e) {
+                  $('#agenda-create-end-time').data("DateTimePicker").minDate(e.date);
                 });
-                $("#end-time").on("dp.change", function (e) {
-                  $('#start-time').data("DateTimePicker").maxDate(e.date);
+                $("#agenda-create-end-time").on("dp.change", function (e) {
+                  $('#agenda-create-start-time').data("DateTimePicker").maxDate(e.date);
                 });
               });
             });
@@ -136,7 +136,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
+          <a onclick="createMeeting()" type="button" class="btn btn-primary" style="font-size:18px;">Create</a>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -306,7 +306,7 @@
               $('#agenda-create-part').empty();
               for (const i of data.user) {
                 if (i.name != $.cookie('cookie_name')) {
-                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" name="part" style="font-size:21px;">' + i.name + '</label>');
+                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" value="'+i.name+'" style="font-size:21px;">' + i.name + '</label>');
                 }              
               }
               $('#agenda-create-part').trigger('create');
