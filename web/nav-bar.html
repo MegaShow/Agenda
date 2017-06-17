@@ -13,9 +13,9 @@
     </div>
     <div class="collapse navbar-collapse" id="agenda-nav">
       <ul id="agenda-god" class="nav navbar-nav">
-        <li><a href="alluser.html">User</a></li>
-        <li><a href="meeting.html">Meeting</a></li>
-        <li><a href="../agenda">About</a></li>
+        <li><a href="alluser.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+        <li><a href="meeting.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+        <li><a href="../agenda"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
       </ul>
       <ul id="agenda-nav-sign" class="nav navbar-nav navbar-right">
         <li class="dropdown" id="agenda-nav-right-cog">
@@ -177,16 +177,19 @@
 <script>
   $(function () {
     if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
-      if (window.location.pathname != "/agenda/User.html") {
+      if (window.location.pathname != "/agenda/User.html" &&
+        window.location.pathname != "/agenda/alluser.html" &&
+        window.location.pathname != "/agenda/meeting.html") {
         window.location.href = "User.html";
       }
       $('#agenda-nav-user-name').html($.cookie('cookie_name'));
       $('#agenda-nav-sign').hide();
       $('#nav-index').hide();
-      $('#agenda-god').hide();
     } else {
       $('#agenda-nav-user').hide();
-      if (window.location.pathname == "/agenda/User.html") {
+      if (window.location.pathname == "/agenda/User.html" ||
+        window.location.pathname == "/agenda/alluser.html" ||
+        window.location.pathname == "/agenda/meeting.html") {
         window.location.href = "SignIn.html";
       } else if (window.location.pathname == "/agenda/SignIn.html") {
         $('#agenda-nav-sign-up').hide();
