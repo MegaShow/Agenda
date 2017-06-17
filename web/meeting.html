@@ -50,17 +50,19 @@
       $.post('/api/agenda/meeting', {}, (data) => {
         if (data.status == 'successful') {
           for (const i of data.meeting) {
+            var start_time = new Date(i.start);
+            var end_time = new Date(i.end);
             $('#meeting-list-table').append('\
             <tr>\
               <td>' + i.id + '</td>\
               <td>' + i.title + '</td>\
               <td>' + i.sponsor + '</td>\
-              <td>' + i.start + '</td>\
-              <td>' + i.end + '</td>\
+              <td>' + start_time.toLocaleString() + '</td>\
+              <td>' + end_time.toLocaleString() + '</td>\
               <td>' + i.part + '</td>\
               <td></td>\
             </tr>');
-          }        
+          }
           $('#meeting-list-table').trigger('create');
         }
       });

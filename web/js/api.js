@@ -128,10 +128,15 @@ function createMeeting() {
   $.post('/api/agenda/user/', {}, (data) => {
     if (data.status == 'successful') {
       var part = '';
+      var part_flag = false;
       for (const i of data.user) {
         if (i.name != $.cookie('cookie_name')) {
-          if ($('input[value="'+i.name+'"]').is(':checked') == true) {
-            part += i.name + ',';
+          if ($('input[value="' + i.name + '"]').is(':checked') == true) {
+            if (part_flag == true) {
+              part += ',';
+            }
+            part += i.name;
+            part_flag = true;
             var flag = true;
             $.post('/api/agenda/hastime', {
               username: i.name,
@@ -157,7 +162,7 @@ function createMeeting() {
         sponsor: $.cookie('cookie_name'),
         participator: part,
         start: $('#agenda-create-start-time-val').val(),
-        end: $('#agenda-create-end-time-val').val(),        
+        end: $('#agenda-create-end-time-val').val(),
       }, (data) => {
         if (data.status == 'successful') {
           window.location.reload();

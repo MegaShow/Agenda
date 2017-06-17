@@ -177,13 +177,13 @@
 <script>
   $(function () {
     if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
-      if (window.location.pathname != "/agenda/User.html") {
+      if (window.location.pathname == "/agenda/index.html") {
         window.location.href = "User.html";
       }
       $('#agenda-nav-user-name').html($.cookie('cookie_name'));
       $('#agenda-nav-sign').hide();
       $('#nav-index').hide();
-      $('#agenda-god').hide();
+      //$('#agenda-god').hide();
     } else {
       $('#agenda-nav-user').hide();
       if (window.location.pathname == "/agenda/User.html") {
@@ -193,7 +193,7 @@
       } else if (window.location.pathname == "/agenda/SignUp.html") {
         $('#agenda-nav-sign-in').hide();
       }
-      $('#agenda-god').hide();
+      //$('#agenda-god').hide();
       $('#nav-top').hide();
     }
   });
