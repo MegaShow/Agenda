@@ -137,20 +137,6 @@ function createMeeting() {
             }
             part += i.name;
             part_flag = true;
-            var flag = true;
-            $.post('/api/agenda/hastime', {
-              username: i.name,
-              start: $('#agenda-create-start-time-val').val(),
-              end: $('#agenda-create-end-time-val').val()
-            }, (data) => {
-              if (data.status == 'failed') {
-                flag = false;
-              }
-            });
-            if (flag == false) {
-              message('<span class="glyphicon glyphicon-user" aria-hidden="true"></span>' + i.name + ' has no time!');
-              return false;
-            }
           }
         }
       }
@@ -174,3 +160,60 @@ function createMeeting() {
   });
 }
 
+function deleteMeeting(id) {
+  $.post('/api/agenda/deleteMeeting/', {
+    mid: id
+  }, (data) => {
+    if (data.status == 'successful') {
+      message('Delete Succeed');
+      window.location.reload();
+    }
+  });
+}
+
+function quitMeeting(id) {
+  $.post('/api/agenda/quitMeeting/', {
+    mid: id,
+    name: $.cookie('cookie_name')
+  }, (data) => {
+    if (data.status == 'successful') {
+      message('Quit Succeed');
+      window.location.reload();
+    }
+  });
+}
+
+function addMeeting(id) {
+  $.post('/api/agenda/user/', {}, (data) => {
+    if (data.status == 'successful') {
+      var part = '';
+      var part_flag = 0;
+      for (const i of data.user) {
+        if (i.name != $.cookie('cookie_name')) {
+          if ($('input[value="' + i.name + '"]').is(':checked') == true) {
+            if (part_flag) {
+              part += ',';
+            }
+            part += i.name;
+            part_flag = 1;
+          }
+        }
+      }
+      if (part == '' || part != 1) {
+        return false;
+      }
+      $.post('/api/agenda/addMeeting/', {
+        mid: id,
+        name: part
+      }, (data) => {
+        if (data.status == 'successful') {
+          window.location.reload();
+        }
+      });
+    }
+  });
+}
+
+function setId(id) {
+  $('#agenda-add-enter').click(function() {addMeeting(id)});
+}

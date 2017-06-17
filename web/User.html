@@ -221,6 +221,24 @@
   </div>
   <!-- /.modal -->
 
+  <div id="agenda-add" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Add participator(Only one)</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10  col-xs-12" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+            <p style="margin-bottom:5px;">Paticipators:</p>
+            <div id="agenda-add-part"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a id="agenda-add-enter" onclick="addMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Add</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     $(function () {
       if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
@@ -252,11 +270,11 @@
                 <td>' + end_time.toLocaleString() + '</td>\
                 <td>' + i.part + '</td>\
                 <td>\
-                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-edit">\
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-add">\
+                    <span onclick="setId('+ i.id + ')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
                   </a>&nbsp;\
-                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-delete">\
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
+                    <span onclick="deleteMeeting('+ i.id + ')" class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
                   </a>\
                 </td>\
               </tr>');
@@ -280,8 +298,8 @@
                   <td>' + end_time.toLocaleString() + '</td>\
                   <td>' + i.part + '</td>\
                   <td>\
-                    <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-quit">\
-                      <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
+                    <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
+                      <span onclick="quitMeeting('+ i.id + ')" class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
                     </a>\
                   </td>\
                 </tr>');
@@ -310,14 +328,31 @@
               $('#agenda-create-part').empty();
               for (const i of data.user) {
                 if (i.name != $.cookie('cookie_name')) {
-                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" value="'+i.name+'" style="font-size:21px;">' + i.name + '</label>');
-                }              
+                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+                }
               }
               $('#agenda-create-part').trigger('create');
             } else {
               $('#agenda-create-part').empty();
               $('#agenda-create-part').append('None');
               $('#agenda-create-part').trigger('create');
+            }
+          });
+        });
+        $('#agenda-add').on('show.bs.modal', function (e) {
+          $.post('/api/agenda/user/', {}, (data) => {
+            if (data.status == 'successful') {
+              $('#agenda-add-part').empty();
+              for (const i of data.user) {
+                if (i.name != $.cookie('cookie_name')) {
+                  $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+                }
+              }
+              $('#agenda-add-part').trigger('create');
+            } else {
+              $('#agenda-add-part').empty();
+              $('#agenda-add-part').append('None');
+              $('#agenda-add-part').trigger('create');
             }
           });
         });

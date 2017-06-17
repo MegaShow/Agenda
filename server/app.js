@@ -206,18 +206,6 @@ app.post('/agenda/user', (req, res, next) => {
   })
 });
 
-app.post('/agenda/hastime', (req, res, next) => {
-  var name = sqlModule.dealEscape(req.body.username);
-  var start = sqlModule.dealEscape(req.body.start);
-  var end = sqlModule.dealEscape(req.body.end);
-  sqlModule.query("SELECT * FROM `meeting` WHERE (BINARY `sponsor` LIKE '%" + name + "%' OR BINARY `part` LIKE '%" + name + "%') AND `start` < '" + end + "' AND `end` > '" + start + "';", (vals, isNull) => {
-    if (isNull) {
-      res.send({ status: 'successful' });
-    } else {
-      res.send({ status: 'failed' });
-    }
-  })
-});
 
 app.post('/agenda/create', (req, res, next) => {
   var sponsor = sqlModule.dealEscape(req.body.sponsor);
@@ -231,30 +219,141 @@ app.post('/agenda/create', (req, res, next) => {
   console.log('Participator: ' + part);
   console.log('Start Time: ' + start);
   console.log('End Time: ' + end);
-  sqlModule.query("SELECT * FROM `meeting` WHERE binary `title` = '" + title + "';", (vals, isNull) => {
+  var val;
+  sqlModule.query("SELECT * FROM `meeting` WHERE `start` < '" + end + "' AND `end` > '" + start + "';", (vals, isNull) => {
+    var flag = true;
+    var test_part = '';
     if (isNull) {
-      sqlModule.query("SELECT * FROM `globe` WHERE `name` = 'meeting';", (vals, isNull) => {
-        if (isNull) {
-          console.log('Select globe meeting error!!!');
-          res.send({ status: 'failed' });
+      flag = true;
+    } else {
+      for (var i in vals) {
+        if (i == 0) {
+          test_part += vals[i].part;
         } else {
-          id = vals[0].var;
-          id++;
-          console.log('id: ' + id);
-          sqlModule.query("UPDATE `globe` SET `var` = '" + id + "' WHERE `globe`.`keyvar` = 1;");
-          sqlModule.query("INSERT INTO `meeting` (`id`, `title`, `sponsor`, `start`, `end`, `part`) \
+          test_part += ',';
+          test_part += vals[i].part;
+        }
+        test_part += ',';
+        test_part += vals[i].sponsor;
+      }
+      var arr = (part + ',' + sponsor).split(',');
+      var test_arr = test_part.split(',');
+      for (var i of arr) {
+        for (var j of test_arr) {
+          if (i == j) {
+            flag = false;
+            break;
+          }
+        }
+      }
+    }
+    if (flag === false) {
+      res.send({ status: 'failed', err: 'some users have no time' });
+    } else {
+      sqlModule.query("SELECT * FROM `meeting` WHERE binary `title` = '" + title + "';", (vals, isNull) => {
+        if (isNull) {
+          sqlModule.query("SELECT * FROM `globe` WHERE `name` = 'meeting';", (vals, isNull) => {
+            if (isNull) {
+              console.log('Select globe meeting error!!!');
+              res.send({ status: 'failed' });
+            } else {
+              id = vals[0].var;
+              id++;
+              console.log('id: ' + id);
+              sqlModule.query("UPDATE `globe` SET `var` = '" + id + "' WHERE `globe`.`keyvar` = 1;");
+              sqlModule.query("INSERT INTO `meeting` (`id`, `title`, `sponsor`, `start`, `end`, `part`) \
                           VALUES ('"+ id + "', '" + title + "', '" + sponsor + "', '" + start + "', '" + end + "', '" + part + "');");
-          console.log('Successful.\n');
-          res.send({ status: 'successful' });
+              console.log('Successful.\n');
+              res.send({ status: 'successful' });
+            }
+            return;
+          });
+        } else {
+          val = vals;
+          console.log('Failed. The title has been used.\n');
+          res.send({ status: 'failed', err: 'The title has been used!' });
         }
       });
-    } else {
-      console.log('Failed. The title has been used.\n');
-      res.send({ status: 'failed', err: 'The title has been used!' });
     }
   });
 });
 
+
+app.post('/agenda/deleteMeeting/', (req, res, next) => {
+  console.log('Delete Meeting: ' + req.body.mid);
+  sqlModule.query("DELETE FROM `meeting` WHERE `meeting`.`id` = '" + req.body.mid + "';");
+  res.send({ status: 'successful' });
+});
+
+
+app.post('/agenda/quitMeeting/', (req, res, next) => {
+  console.log('Quit Meeting: ' + req.body.mid + req.body.name);
+  sqlModule.query("SELECT * FROM `meeting` WHERE `meeting`.`id` = '" + req.body.mid + "';", (vals, isNull) => {
+    if (isNull) {
+      res.send({ status: 'failed' });
+    } else {
+      var arr = vals[0].part.split(',');
+      var flag = false;
+      var part = '';
+      for (var i of arr) {
+        if (i == req.body.name) {
+          continue;
+        }
+        if (flag) {
+          part += ',';
+        }
+        part += i;
+        flag = true;
+      }
+      sqlModule.query("UPDATE `meeting` SET `part` = '" + part + "' WHERE `meeting`.`id` = '" + req.body.mid + "';");
+      res.send({ status: 'successful' });
+    }
+  });
+});
+
+
+app.post('/agenda/addMeeting/', (req, res, next) => {
+  console.log('Add Meeting: ' + req.body.mid + req.body.name);
+  sqlModule.query("SELECT * FROM `meeting` WHERE `meeting`.`id` = '" + req.body.mid + "';", (val, isNull) => {
+    if (isNull) {
+      res.send({ status: 'failed' });
+    } else {
+      var start = new Date(val[0].start);
+      var end = new Date(val[0].end);
+      sqlModule.query("SELECT * FROM `meeting` WHERE `start` < '" + end.toLocaleString() + "' AND `end` > '" + start.toLocaleString() + "';", (vals, isNull) => {
+        var flag = true;
+        var test_part = '';
+        if (isNull) {
+          flag = true;
+        } else {
+          for (var i in vals) {
+            if (i == 0) {
+              test_part += vals[i].part;
+            } else {
+              test_part += ',';
+              test_part += vals[i].part;
+            }
+            test_part += ',';
+            test_part += vals[i].sponsor;
+          }
+          var test_arr = test_part.split(',');
+          for (var j of test_arr) {
+            if (req.body.name == j) {
+              flag = false;
+              break;
+            }
+          }
+        }
+        if (flag === false) {
+          res.send({ status: 'failed', err: 'some users have no time' });
+        } else {
+          sqlModule.query("UPDATE `meeting` SET `part` = '" + val[0].part + "," + req.body.name + "' WHERE `meeting`.`id` = '" + req.body.mid + "';")
+          res.send({ status: 'successful' });
+        }
+      });
+    }
+  });
+});
 
 
 app.get('/', function (req, res) {
