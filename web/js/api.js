@@ -214,5 +214,5 @@ function addMeeting(title) {
 }
 
 function setId(id) {
-  $('#agenda-add-enter').click(function() {addMeeting(id)});
+  //document.getElementById('agenda-add-enter').value = this.val();
 }
