@@ -181,7 +181,7 @@ function quitMeeting(id) {
   });
 }
 
-function addMeeting(id) {
+function addMeeting(title) {
   $.post('/api/agenda/user/', {}, (data) => {
     if (data.status == 'successful') {
       var part = '';
@@ -197,15 +197,16 @@ function addMeeting(id) {
           }
         }
       }
-      if (part == '' || part != 1) {
+      if (part == '') {
         return false;
       }
       $.post('/api/agenda/addMeeting/', {
-        mid: id,
-        name: part
+        name: $('#edit-title').html()
       }, (data) => {
         if (data.status == 'successful') {
           window.location.reload();
+        } else {
+          message(data.err);
         }
       });
     }

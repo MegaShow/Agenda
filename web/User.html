@@ -202,7 +202,7 @@
   <div id="agenda-add" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header"><strong style="font-size:22px;">Add participator(Only one)</strong></div>
+        <div class="modal-header"><strong style="font-size:22px;">Edit </strong><strong id="edit-title" style="font-size:22px;"></strong></div>
         <div class="modal-body">
           <div class="input-group col-sm-10  col-xs-12" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
             <p style="margin-bottom:5px;">Paticipators:</p>
@@ -211,7 +211,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
-          <a id="agenda-add-enter" onclick="addMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Add</a>
+          <a id="agenda-add-enter" onclick="addMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Edit</a>
         </div>
       </div>
     </div>
@@ -248,8 +248,8 @@
                 <td>' + end_time.toLocaleString() + '</td>\
                 <td>' + i.part + '</td>\
                 <td>\
-                  <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-add">\
-                    <span onclick="setId('+ i.id + ')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
+                    <span onclick="tomodal('+ i.title + ')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
                   </a>&nbsp;\
                   <a href="#agenda-trash-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
@@ -343,26 +343,65 @@
             }
           });
         });
-        $('#agenda-add').on('show.bs.modal', function (e) {
-          $.post('/api/agenda/user/', {}, (data) => {
-            if (data.status == 'successful') {
+        <!-- $('#agenda-add').on('show.bs.modal', function (e) { -->
+          <!-- $.post('/api/agenda/user/', {}, (data) => { -->
+            <!-- if (data.status == 'successful') { -->
+              <!-- $('#agenda-add-part').empty(); -->
+              <!-- for (const i of data.user) { -->
+                <!-- if (i.name != $.cookie('cookie_name')) { -->
+                  <!-- $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>'); -->
+                <!-- } -->
+              <!-- } -->
+              <!-- $('#agenda-add-part').trigger('create'); -->
+            <!-- } else { -->
+              <!-- $('#agenda-add-part').empty(); -->
+              <!-- $('#agenda-add-part').append('None'); -->
+              <!-- $('#agenda-add-part').trigger('create'); -->
+            <!-- } -->
+          <!-- }); -->
+        <!-- }); -->
+      }
+    });
+  function tomodal(str) {
+    $('#agenda-add').on('show.bs.modal', function (e) {
+      $('#edit-title').append(str);
+      $.post('/api/agenda/findmeeting/', {
+        title: str
+      }, (data) => {
+        if (data.status == 'successful') {
+          $.post('/api/agenda/user', {}, (udata) => {
+            if (udata.status == 'successful') {
               $('#agenda-add-part').empty();
-              for (const i of data.user) {
-                if (i.name != $.cookie('cookie_name')) {
-                  $('#agenda-add-part').append('<label class="checkbox-inline"><input value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+              var arr = data.parts.split(',');
+              var sometap = false;
+              for (const j of udata.user) {
+                sometap = false;
+                for (const i of arr) {
+                  if (i == j.name) {
+                    sometap = true;
+                    break;
+                  }
+                }
+                if (sometap == false) {
+                  $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + j.name + '" style="font-size:21px;">' + j.name + '</label>');
+                } else {
+                  $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" checked="checked" value="' + j.name + '" style="font-size:21px;">' + j.name + '</label>');
                 }
               }
               $('#agenda-add-part').trigger('create');
-            } else {
-              $('#agenda-add-part').empty();
-              $('#agenda-add-part').append('None');
-              $('#agenda-add-part').trigger('create');
             }
           });
-        });
-      }
+        } else {
+          $('#agenda-add-part').empty();
+          $('#agenda-add-part').append('None');
+          $('#agenda-add-part').trigger('create');
+        }
+      });
     });
+    $('#agenda-add').modal('show');
+  }
   </script>
+  
 </body>
 
 </html>

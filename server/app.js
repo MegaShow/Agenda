@@ -318,6 +318,21 @@ app.post('/agenda/quitMeeting/', (req, res, next) => {
   });
 });
 
+app.post('/agenda/findmeeting/', (req, res, next) => {
+  var title = sqlModule.dealEscape(req.body.title);
+  console.log('Find Meeting: ' + title);
+  sqlModule.query("SELECT * FROM `meeting` WHERE `title` LIKE '" + title + "';", (vals, isNull) => {
+    if (isNull) {
+      console.log('Failed.');
+      res.send({ status: 'failed' });
+    } else {
+      var parts = vals[0].part;
+      console.log('Successful.');
+      res.send({ status: 'successful', parts: parts });
+    }
+  });
+});
+
 
 app.post('/agenda/addMeeting/', (req, res, next) => {
   console.log('Add Meeting: ' + req.body.mid + req.body.name);
