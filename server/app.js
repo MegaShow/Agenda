@@ -335,13 +335,32 @@ app.post('/agenda/findmeeting/', (req, res, next) => {
 
 
 app.post('/agenda/addMeeting/', (req, res, next) => {
-  console.log('Add Meeting: ' + req.body.mid + req.body.name);
-  sqlModule.query("SELECT * FROM `meeting` WHERE `meeting`.`id` = '" + req.body.mid + "';", (val, isNull) => {
+  console.log('Add Meeting: ' + req.body.title + req.body.parts);
+  sqlModule.query("SELECT * FROM `meeting` WHERE `meeting`.`title` = '" + req.body.title + "';", (val, isNull) => {
     if (isNull) {
       res.send({ status: 'failed' });
     } else {
       var start = new Date(val[0].start);
       var end = new Date(val[0].end);
+      var old_part_arr = val[0].part.split(',');
+      var new_part_arr = req.body.parts.split(',');
+      var real_part = "";
+      var real_part_flag = false;
+      for (var n of new_part_arr) {
+        var part_arr_flag = true;
+        for (var o of old_part_arr) {
+          if (o == n) {
+            part_arr_flag = false;
+          }
+        }
+        if (part_arr_flag) {
+          if (real_part_flag) {
+            real_part += ',';
+          }
+          real_part += n;
+          real_part_flag = true;
+        }
+      }
       sqlModule.query("SELECT * FROM `meeting` WHERE `start` < '" + end.toLocaleString() + "' AND `end` > '" + start.toLocaleString() + "';", (vals, isNull) => {
         var flag = true;
         var test_part = '';
@@ -358,10 +377,16 @@ app.post('/agenda/addMeeting/', (req, res, next) => {
             test_part += ',';
             test_part += vals[i].sponsor;
           }
+          var arr = real_part.split(',');
           var test_arr = test_part.split(',');
-          for (var j of test_arr) {
-            if (req.body.name == j) {
-              flag = false;
+          for (var i of arr) {
+            for (var j of test_arr) {
+              if (i == j) {
+                flag = false;
+                break;
+              }
+            }
+            if (flag == false) {
               break;
             }
           }
@@ -369,7 +394,7 @@ app.post('/agenda/addMeeting/', (req, res, next) => {
         if (flag === false) {
           res.send({ status: 'failed', err: 'some users have no time' });
         } else {
-          sqlModule.query("UPDATE `meeting` SET `part` = '" + val[0].part + "," + req.body.name + "' WHERE `meeting`.`id` = '" + req.body.mid + "';")
+          sqlModule.query("UPDATE `meeting` SET `part` = '" + req.body.parts + "' WHERE `meeting`.`title` = '" + req.body.title + "';")
           res.send({ status: 'successful' });
         }
       });

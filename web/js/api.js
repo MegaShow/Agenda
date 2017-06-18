@@ -201,7 +201,8 @@ function addMeeting(title) {
         return false;
       }
       $.post('/api/agenda/addMeeting/', {
-        name: $('#edit-title').html()
+        title: $('#edit-title').html(),
+        parts: part 
       }, (data) => {
         if (data.status == 'successful') {
           window.location.reload();
