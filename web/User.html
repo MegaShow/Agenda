@@ -249,7 +249,7 @@
                 <td>' + i.part + '</td>\
                 <td>\
                   <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-add">\
-                    <span onclick="setId('+ i.id + ')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                    <span value="'+i.id+'" onclick="setId()" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
                   </a>&nbsp;\
                   <a href="#agenda-trash-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
@@ -349,7 +349,7 @@
               $('#agenda-add-part').empty();
               for (const i of data.user) {
                 if (i.name != $.cookie('cookie_name')) {
-                  $('#agenda-add-part').append('<label class="checkbox-inline"><input value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+                  $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
                 }
               }
               $('#agenda-add-part').trigger('create');
@@ -360,6 +360,9 @@
             }
           });
         });
+        $('#agenda-add-enter').on('click', function() {
+          document.getElementById('agenda-add-enter').value = $(this).val();
+        })
       }
     });
   </script>

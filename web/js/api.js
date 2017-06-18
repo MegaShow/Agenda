@@ -181,7 +181,7 @@ function quitMeeting(id) {
   });
 }
 
-function addMeeting(id) {
+function addMeeting() {
   $.post('/api/agenda/user/', {}, (data) => {
     if (data.status == 'successful') {
       var part = '';
@@ -201,7 +201,7 @@ function addMeeting(id) {
         return false;
       }
       $.post('/api/agenda/addMeeting/', {
-        mid: id,
+        mid: $('#agenda-add-enter').val(),
         name: part
       }, (data) => {
         if (data.status == 'successful') {
@@ -213,5 +213,5 @@ function addMeeting(id) {
 }
 
 function setId(id) {
-  $('#agenda-add-enter').click(function() {addMeeting(id)});
+  //document.getElementById('agenda-add-enter').value = this.val();
 }
