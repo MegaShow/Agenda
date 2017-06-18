@@ -165,7 +165,6 @@ function deleteMeeting(id) {
     mid: id
   }, (data) => {
     if (data.status == 'successful') {
-      message('Delete Succeed');
       window.location.reload();
     }
   });
@@ -177,7 +176,6 @@ function quitMeeting(id) {
     name: $.cookie('cookie_name')
   }, (data) => {
     if (data.status == 'successful') {
-      message('Quit Succeed');
       window.location.reload();
     }
   });

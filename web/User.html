@@ -4,7 +4,7 @@
 <!-- head -->
 
 <head>
-  <title>Agenda</title>
+  <title>Agenda - Home</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
@@ -192,32 +192,10 @@
     <!-- /.modal-dialog -->
   </div>
   <!-- /.modal -->
-  <div id="agenda-trash" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body" align="middle" style="padding:28px;">
-          <p style="font-size:24px;padding-top:8px;">Are you sure that delete <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>Math</strong></span>            ?</p>
-          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">No</button>
-          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;width:100px;">Yes</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+  <div id="agenda-trashs">
   </div>
   <!-- /.modal -->
-  <div id="agenda-quit" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-body" align="middle" style="padding:28px;">
-          <p style="font-size:24px;padding-top:8px;">Are you sure that quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>Java</strong></span>            ?</p>
-          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">No</button>
-          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;width:100px;">Yes</a>
-        </div>
-      </div>
-      <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+  <div id="agenda-quits">
   </div>
   <!-- /.modal -->
 
@@ -273,13 +251,26 @@
                   <a href="#" class="modal-toggle" role="button" data-toggle="modal" data-target="#agenda-add">\
                     <span onclick="setId('+ i.id + ')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
                   </a>&nbsp;\
-                  <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
-                    <span onclick="deleteMeeting('+ i.id + ')" class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                  <a href="#agenda-trash-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
                   </a>\
                 </td>\
               </tr>');
+              $('#meeting-list-table').trigger('create');
+              $('#agenda-trashs').append('\
+                <div id="agenda-trash-' + i.id + '" class="modal fade" tabindex="-1" role="dialog">\
+                  <div class="modal-dialog modal-sm" style="margin-top:65px;" role="document">\
+                    <div class="modal-content">\
+                      <div class="modal-body" align="middle" style="padding:28px;">\
+                        <p style="font-size:24px;padding-top:8px;">Are you sure that delete <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>' + i.title + '</strong></span>?</p>\
+                          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">Cancel</button>\
+                        <a href="#" onclick="deleteMeeting(' + i.id + ')" type="button" class="btn btn-danger" style="font-size:18px;width:100px;">Delete</a>\
+                      </div>\
+                    </div>\
+                  </div>\
+                </div>');
+              $('#agenda-trashs').trigger('create');
             }
-            $('#meeting-list-table').trigger('create');
           }
           $.post('/api/agenda/part_meeting', {
             name: $.cookie('cookie_name')
@@ -298,13 +289,26 @@
                   <td>' + end_time.toLocaleString() + '</td>\
                   <td>' + i.part + '</td>\
                   <td>\
-                    <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
-                      <span onclick="quitMeeting('+ i.id + ')" class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
+                    <a href="#agenda-quit-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
+                      <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
                     </a>\
                   </td>\
                 </tr>');
-              }
               $('#meeting-list-table').trigger('create');
+              $('#agenda-quits').append('\
+                <div id="agenda-quit-' + i.id + '" class="modal fade" tabindex="-1" role="dialog">\
+                  <div class="modal-dialog modal-sm" style="margin-top:65px;" role="document">\
+                    <div class="modal-content">\
+                      <div class="modal-body" align="middle" style="padding:28px;">\
+                        <p style="font-size:24px;padding-top:8px;">Are you sure that quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>' + i.title + '</strong></span>?</p>\
+                          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">Close</button>\
+                        <a href="#" onclick="quitMeeting('+ i.id + ')" type="button" class="btn btn-danger" style="font-size:18px;width:100px;">Quit</a>\
+                      </div>\
+                    </div>\
+                  </div>\
+                </div>');
+              $('#agenda-quits').trigger('create');
+              }
             } else {
               if (count == 0) {
                 $('#meeting-list-table').append('\
@@ -345,7 +349,7 @@
               $('#agenda-add-part').empty();
               for (const i of data.user) {
                 if (i.name != $.cookie('cookie_name')) {
-                  $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+                  $('#agenda-add-part').append('<label class="checkbox-inline"><input value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
                 }
               }
               $('#agenda-add-part').trigger('create');

@@ -219,6 +219,7 @@ app.post('/agenda/create', (req, res, next) => {
   console.log('Participator: ' + part);
   console.log('Start Time: ' + start);
   console.log('End Time: ' + end);
+      //？
   var val;
   sqlModule.query("SELECT * FROM `meeting` WHERE `start` < '" + end + "' AND `end` > '" + start + "';", (vals, isNull) => {
     var flag = true;
@@ -245,10 +246,14 @@ app.post('/agenda/create', (req, res, next) => {
             break;
           }
         }
+        if (flag == false) {
+          break;
+        }
       }
     }
     if (flag === false) {
-      res.send({ status: 'failed', err: 'some users have no time' });
+      console.log('Failed. Some users have no time.');
+      res.send({ status: 'failed', err: 'Some users have no time!' });
     } else {
       sqlModule.query("SELECT * FROM `meeting` WHERE binary `title` = '" + title + "';", (vals, isNull) => {
         if (isNull) {
@@ -290,6 +295,7 @@ app.post('/agenda/quitMeeting/', (req, res, next) => {
   console.log('Quit Meeting: ' + req.body.mid + req.body.name);
   sqlModule.query("SELECT * FROM `meeting` WHERE `meeting`.`id` = '" + req.body.mid + "';", (vals, isNull) => {
     if (isNull) {
+      console.log('Failed.');
       res.send({ status: 'failed' });
     } else {
       var arr = vals[0].part.split(',');
@@ -306,6 +312,7 @@ app.post('/agenda/quitMeeting/', (req, res, next) => {
         flag = true;
       }
       sqlModule.query("UPDATE `meeting` SET `part` = '" + part + "' WHERE `meeting`.`id` = '" + req.body.mid + "';");
+      console.log('Successful.');
       res.send({ status: 'successful' });
     }
   });
