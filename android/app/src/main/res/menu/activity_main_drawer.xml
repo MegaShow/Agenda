@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mymeeting"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="My Meeting" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Setting" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@android:drawable/ic_menu_directions"
+            android:title="Log out" />
+        <item
+            android:id="@+id/nav_signin"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Sign in" />
+    </group>
+
+    <item android:title="Agenda">
+        <menu>
+            <item
+                android:id="@+id/nav_user"
+                android:icon="@android:drawable/ic_menu_myplaces"
+                android:title="User" />
+            <item
+                android:id="@+id/nav_meeting"
+                android:icon="@android:drawable/ic_menu_today"
+                android:title="Meeting" />
+        </menu>
+    </item>
+
+</menu>
