@@ -1,0 +1,209 @@
+<!-- Agenda nav bar -->
+<nav class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container-fluid col-md-offset-1 col-md-10">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#agenda-nav">
+          <span class="sr-only"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      <a id="nav-index" class="navbar-brand" href="index.html" style="font-size:32px;">Agenda</a>
+      <a id="nav-top" class="navbar-brand" href="#top" style="font-size:32px;">Agenda</a>
+    </div>
+    <div class="collapse navbar-collapse" id="agenda-nav">
+      <ul id="agenda-god" class="nav navbar-nav">
+        <li><a href="User.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a></li>
+        <li><a href="alluser.html"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+        <li><a href="meeting.html"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span></a></li>
+      </ul>
+      <ul id="agenda-nav-sign" class="nav navbar-nav navbar-right">
+        <li class="dropdown" id="agenda-nav-right-cog">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            </a>
+          <ul class="dropdown-menu">
+            <div id="agenda-nav-sign">
+              <li align="middle" style="font-size:18px;padding-top:6px">No User</li>
+              <li role="separator" class="divider"></li>
+              <li id="agenda-nav-sign-in" align="middle" style="padding-bottom:4px">
+                <a href="SignUp.html">
+                  <button class="btn btn-success">Sign Up</button>
+                  </a>
+              </li>
+              <li id="agenda-nav-sign-up" align="middle" style="padding-bottom:4px">
+                <a href="SignIn.html">
+                  <button class="btn btn-success">Sign In</button>
+                  </a>
+              </li>
+            </div>
+          </ul>
+        </li>
+      </ul>
+      <ul id="agenda-nav-user" class="nav navbar-nav navbar-right">
+        <li id="agenda-nav-right-add">
+          <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-create" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></span>
+            </a>
+        </li>
+        <li class="dropdown" id="agenda-nav-right-cog">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span style="font-size:14px;" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+            </a>
+          <ul class="dropdown-menu">
+            <li align="middle">
+              <div style="font-size:18px;padding-top:6px">Sign in as</div>
+              <div id="agenda-nav-user-name" style="padding-top:6px;font-size:24px;"></div>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-modify" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Modify
+              </a>
+            </li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-setting" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Setting
+                </a>
+            </li>
+            <li align="middle">
+              <a href="#" class="modal-toggle" data-toggle="modal" role="button" data-target="#agenda-delete" aria-haspopup="true" aria-expanded="false"
+                style="font-size:18px;">
+                  Delete
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li align="middle" style="padding-bottom:4px">
+              <div class="btn-group" role="group" aria-label="log-out">
+                <button type="button" onclick="logout()" class="btn btn-warning btn-block">Sign Out</button>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</nav>
+
+<div class="modal fade" id="agenda-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document" style="margin-top:65px">
+    <div class="modal-content">
+      <div id="agenda-modal-html" class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<div id="agenda-modify" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Modify</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
+            <p>Email:</p>
+            <input id="modify-email" type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
+            <p>Phone:</p>
+            <input id="modify-phone" type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" onclick="modify()" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div id="agenda-setting" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Setting</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Old Password:</p>
+            <input id="setting-old-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>New Password:</p>
+            <input id="setting-new-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Confirm New Password:</p>
+            <input id="setting-again-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" onclick="setting()" class="btn btn-primary" data-dismiss="modal" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  
+  <div id="agenda-delete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document" style="margin-top:30px">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Delete</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Username:</p>
+            <input id="delete-name" type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Password:</p>
+            <input id="delete-password" type="password" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a type="button" onclick="signoff()" data-dismiss="modal" class="btn btn-danger" style="font-size:18px;">Delete</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+<script>
+  $(function () {
+    if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+      if (window.location.pathname != "/agenda/User.html" &&
+        window.location.pathname != "/agenda/alluser.html" &&
+        window.location.pathname != "/agenda/meeting.html") {
+        window.location.href = "User.html";
+      }
+      $('#agenda-nav-user-name').html($.cookie('cookie_name'));
+      $('#agenda-nav-sign').hide();
+      $('#nav-index').hide();
+    } else {
+      if (window.location.pathname == "/agenda/User.html" ||
+        window.location.pathname == "/agenda/alluser.html" ||
+        window.location.pathname == "/agenda/meeting.html") {
+        window.location.href = "SignIn.html";
+      }
+      if (window.location.pathname == "/agenda/SignIn.html") {
+        $('#agenda-nav-sign-up').hide();
+      } else if (window.location.pathname == "/agenda/SignUp.html") {
+        $('#agenda-nav-sign-in').hide();
+      }
+      $('#nav-top').hide();
+      $('#agenda-god').hide();
+      $('#agenda-nav-user').hide();
+    }
+  });
+
+  function message(str) {
+    $('#agenda-modal-html').html(str);
+    $('#agenda-modal').modal('show');
+  }
+</script>

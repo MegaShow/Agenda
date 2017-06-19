@@ -9,30 +9,16 @@
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="js/moment.js"></script>
+  <script src="js/bootstrap-datetimepicker.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script src="js/api.js"></script>
 </head>
 
-<body>
+<body style="font-size:21px;">
   <!-- Menu -->
-  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#agenda-nav">
-          <span class="sr-only"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Agenda</a>
-      </div>
-      <div class="collapse navbar-collapse" id="agenda-nav">
-        <ul class="nav navbar-nav">
-          <li><a href="#">ABC</a></li>
-          <li><a href="#">XYZ</a></li>
-          <li><a href="https://www.zhenly.cn">ZhenLy</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <div id="agenda-nav-bar"></div>
   <!-- End Menu -->
 
   <!-- Sign up -->
@@ -43,34 +29,43 @@
         <h2>大师出品，必属精品</h2>
         <p><a class="btn btn-primary btn-lg" href="https://github.com/FantasticGold/" role="button">了解大师</a></p>
       </div>
-      <div class="panel panel-default col-md-4">
+      <div id="module-signup" class="panel panel-default col-md-4">
         <div class="panel-body">
           <div class="input-group" style="padding:15px;">
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Pick a username">
+            <input id="in-username" type="text" class="form-control" placeholder="Pick a username">
           </div>
           <div class="input-group" style="padding:15px;">
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Your email address">
+            <input id="in-email" type="text" class="form-control" placeholder="Your email address">
           </div>
           <div class="input-group" style="padding:15px;">
             <span class="input-group-addon" id="sizing-addon1">
             <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
             </span>
-            <input type="text" class="form-control" placeholder="Create a password">
+            <input id="in-password" type="password" class="form-control" placeholder="Create a password">
           </div>
           <div class="btn-group container" role="group" aria-label="sign-out" style="padding:15px;">
-            <button type="button" class="btn btn-success btn-block">Sign up for Agenda</button>
+            <button type="button" onclick="signup()" class="btn btn-success btn-block">Sign up for Agenda</button>
           </div>
         </div>
       </div>
     </div>
   </div>
   <!-- End Sign up -->
+
+  <script>
+    $(function () {
+      if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+        $('#module-signup').hide();
+      }
+    });
+  </script>
+
 </body>
 
 </html>

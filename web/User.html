@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<!-- html -->
+<html lang="zh-CN">
+<!-- head -->
+
+<head>
+  <title>Agenda - Home</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="js/moment.js"></script>
+  <script src="js/bootstrap-datetimepicker.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script src="js/api.js"></script>
+</head>
+<!-- body -->
+
+<body style="font-size:21px;">
+  <!-- nav -->
+  <div id="agenda-nav-bar"></div>
+
+  <div class="container col-md-offset-1 col-md-10 theme-showcase" role="main" style="margin-top:70px;">
+    <!-- jumbotron -->
+    <div class="jumbotron">
+      <h1 id="agenda-user-hello"></h1>
+      <p>Welcome to Agenda! Now you can check meetings, manage meetings, create new meetings and so on. Just try it!</p>
+    </div>
+    <!-- Profile -->
+    <div class="page-header">
+      <h1>Profile</h1>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="panel panel-success">
+          <div class="panel-heading"><strong style="font-size:22px;">Name</strong></div>
+          <div id="agenda-user-name" class="panel-body"></div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-warning">
+          <div class="panel-heading"><strong style="font-size:22px;">Email</strong></div>
+          <div id="agenda-user-email" class="panel-body"></div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-info">
+          <div class="panel-heading"><strong style="font-size:22px;">Phone</strong></div>
+          <div id="agenda-user-phone" class="panel-body"></div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+    <!-- Meetings -->
+    <div class="page-header" style="font-size:40px;">
+      <h1>Meetings</h1>
+    </div>
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead style="font-size:22px;">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Sponsor</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Paticipators</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="meeting-list-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+  <!-- modals -->
+  <div id="agenda-create" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">New meeting</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-6 col-xs-8" style="padding:10px;">
+            <p>Title:</p>
+            <input id="agenda-create-title" type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding-left:10px;padding-top:10px;">
+            <p>Start Time:</p>
+            <div class="form-group">
+              <div class='input-group date' id='agenda-create-start-time'>
+                <input id='agenda-create-start-time-val' type='text' class="form-control" style="font-size:21px;">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding-left:10px;padding-top:5px;">
+            <p>End Time:</p>
+            <div class="form-group">
+              <div class='input-group date' id='agenda-create-end-time'>
+                <input id="agenda-create-end-time-val" type='text' class="form-control" style="font-size:21px;">
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+            $(function () {
+              $(function () {
+                $('#agenda-create-start-time').datetimepicker({
+                  format: 'YYYY-MM-DD HH:mm'
+                });
+                $('#agenda-create-end-time').datetimepicker({
+                  format: 'YYYY-MM-DD HH:mm',
+                  useCurrent: false //Important! See issue #1075
+                });
+                $("#agenda-create-start-time").on("dp.change", function (e) {
+                  $('#agenda-create-end-time').data("DateTimePicker").minDate(e.date);
+                });
+                $("#agenda-create-end-time").on("dp.change", function (e) {
+                  $('#agenda-create-start-time').data("DateTimePicker").maxDate(e.date);
+                });
+              });
+            });
+          </script>
+          <div class="input-group col-sm-10  col-xs-12" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+            <p style="margin-bottom:5px;">Paticipators:</p>
+            <div id="agenda-create-part"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a onclick="createMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Create</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div id="agenda-sign-off" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Sign Off</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Username:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-8 col-xs-10" style="padding:10px;">
+            <p>Comfirm Password:</p>
+            <input type="password" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">OK</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div id="agenda-edit" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Edit</strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10 col-xs-12" style="padding:10px;">
+            <p>Add a Paticipator:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+          <div class="input-group col-sm-10  col-xs-12" style="padding:10px;">
+            <p>Remove a Paticipator:</p>
+            <input type="text" class="form-control" style="font-size:21px;">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a href="User.html" type="button" class="btn btn-primary" style="font-size:18px;">Save</a>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+  <div id="agenda-trashs">
+  </div>
+  <!-- /.modal -->
+  <div id="agenda-quits">
+  </div>
+  <!-- /.modal -->
+
+  <div id="agenda-add" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"><strong style="font-size:22px;">Edit </strong><strong id="edit-title" style="font-size:22px;"></strong></div>
+        <div class="modal-body">
+          <div class="input-group col-sm-10  col-xs-12" style="padding-left:10px;padding-top:5px;padding-bottom:5px;">
+            <p style="margin-bottom:5px;">Paticipators:</p>
+            <div id="agenda-add-part"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="font-size:18px;">Cancel</button>
+          <a id="agenda-add-enter" onclick="addMeeting()" type="button" data-dismiss="modal" class="btn btn-primary" style="font-size:18px;">Edit</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(function () {
+      if ($.cookie('cookie_id') != null && $.cookie('cookie_id') != '0') {
+        $('#agenda-user-hello').html('Hello, ' + $.cookie('cookie_name'));
+        $('#agenda-user-name').html($.cookie('cookie_name'));
+        $.post('/api/agenda/userInfo', {
+          id: $.cookie('cookie_id')
+        }, (data) => {
+          if (data.status == 'successful') {
+            $('#agenda-user-email').html(data.email);
+            $('#agenda-user-phone').html(data.phone);
+          }
+        });
+        var count = 0;
+        $.post('/api/agenda/sponsor_meeting', {
+          name: $.cookie('cookie_name')
+        }, (data) => {
+          if (data.status == 'successful') {
+            for (const i of data.meetings) {
+              count += 1;
+              var start_time = new Date(i.start);
+              var end_time = new Date(i.end);
+              $('#meeting-list-table').append('\
+              <tr>\
+                <td>' + count + '</td>\
+                <td>' + i.title + '</td>\
+                <td>' + i.sponsor + '</td>\
+                <td>' + start_time.toLocaleString() + '</td>\
+                <td>' + end_time.toLocaleString() + '</td>\
+                <td>' + i.part + '</td>\
+                <td>\
+                  <a href="#" class="modal-toggle" role="button" data-toggle="modal">\
+                    <span onclick="tomodal(\''+ i.title + '\')" class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                  </a>&nbsp;\
+                  <a href="#agenda-trash-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                  </a>\
+                </td>\
+              </tr>');
+              $('#meeting-list-table').trigger('create');
+              $('#agenda-trashs').append('\
+                <div id="agenda-trash-' + i.id + '" class="modal fade" tabindex="-1" role="dialog">\
+                  <div class="modal-dialog modal-sm" style="margin-top:65px;" role="document">\
+                    <div class="modal-content">\
+                      <div class="modal-body" align="middle" style="padding:28px;">\
+                        <p style="font-size:24px;padding-top:8px;">Are you sure that delete <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>' + i.title + '</strong></span>?</p>\
+                          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">Cancel</button>\
+                        <a href="#" onclick="deleteMeeting(' + i.id + ')" type="button" class="btn btn-danger" style="font-size:18px;width:100px;">Delete</a>\
+                      </div>\
+                    </div>\
+                  </div>\
+                </div>');
+              $('#agenda-trashs').trigger('create');
+            }
+          }
+          $.post('/api/agenda/part_meeting', {
+            name: $.cookie('cookie_name')
+          }, (data) => {
+            if (data.status == 'successful') {
+              for (const i of data.meetings) {
+                count += 1;
+                var start_time = new Date(i.start);
+                var end_time = new Date(i.end);
+                $('#meeting-list-table').append('\
+                <tr>\
+                  <td>' + count + '</td>\
+                  <td>' + i.title + '</td>\
+                  <td>' + i.sponsor + '</td>\
+                  <td>' + start_time.toLocaleString() + '</td>\
+                  <td>' + end_time.toLocaleString() + '</td>\
+                  <td>' + i.part + '</td>\
+                  <td>\
+                    <a href="#agenda-quit-' + i.id + '" class="modal-toggle" role="button" data-toggle="modal">\
+                      <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>\
+                    </a>\
+                  </td>\
+                </tr>');
+              $('#meeting-list-table').trigger('create');
+              $('#agenda-quits').append('\
+                <div id="agenda-quit-' + i.id + '" class="modal fade" tabindex="-1" role="dialog">\
+                  <div class="modal-dialog modal-sm" style="margin-top:65px;" role="document">\
+                    <div class="modal-content">\
+                      <div class="modal-body" align="middle" style="padding:28px;">\
+                        <p style="font-size:24px;padding-top:8px;">Are you sure that quit <span class="glyphicon glyphicon-comment" aria-hidden="true"><strong>' + i.title + '</strong></span>?</p>\
+                          <button type="button" class="btn btn-default" style="font-size:18px;width:100px;" data-dismiss="modal">Close</button>\
+                        <a href="#" onclick="quitMeeting('+ i.id + ')" type="button" class="btn btn-danger" style="font-size:18px;width:100px;">Quit</a>\
+                      </div>\
+                    </div>\
+                  </div>\
+                </div>');
+              $('#agenda-quits').trigger('create');
+              }
+            } else {
+              if (count == 0) {
+                $('#meeting-list-table').append('\
+                <tr>\
+                  <td></td>\
+                  <td>None</td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                  <td></td>\
+                </tr>');
+                $('#meeting-list-table').trigger('create');
+              }
+            }
+          });
+        });
+        $('#agenda-create').on('show.bs.modal', function (e) {
+          $.post('/api/agenda/user/', {}, (data) => {
+            if (data.status == 'successful') {
+              $('#agenda-create-part').empty();
+              for (const i of data.user) {
+                if (i.name != $.cookie('cookie_name')) {
+                  $('#agenda-create-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + i.name + '" style="font-size:21px;">' + i.name + '</label>');
+                }
+              }
+              $('#agenda-create-part').trigger('create');
+            } else {
+              $('#agenda-create-part').empty();
+              $('#agenda-create-part').append('None');
+              $('#agenda-create-part').trigger('create');
+            }
+          });
+        });
+      }
+    });
+  function tomodal(str) {
+    $('#agenda-add').on('show.bs.modal', function (e) {
+      $('#edit-title').empty();
+      $('#edit-title').append(str);
+      $.post('/api/agenda/findmeeting/', {
+        title: str
+      }, (data) => {
+        if (data.status == 'successful') {
+          $.post('/api/agenda/user', {}, (udata) => {
+            if (udata.status == 'successful') {
+              $('#agenda-add-part').empty();
+              var arr = data.parts.split(',');
+              var sometap = false;
+              for (const j of udata.user) {
+                if (j.name != $.cookie('cookie_name')) {
+                  sometap = false;
+                  for (const i of arr) {
+                    if (i == j.name) {
+                      sometap = true;
+                      break;
+                    }
+                  }
+                  if (sometap == false) {
+                    $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" value="' + j.name + '" style="font-size:21px;">' + j.name + '</label>');
+                  } else {
+                    $('#agenda-add-part').append('<label class="checkbox-inline"><input type="checkbox" checked="checked" value="' + j.name + '" style="font-size:21px;">' + j.name + '</label>');
+                  }
+                }
+              }
+              $('#agenda-add-part').trigger('create');
+            }
+          });
+        } else {
+          $('#agenda-add-part').empty();
+          $('#agenda-add-part').append('None');
+          $('#agenda-add-part').trigger('create');
+        }
+      });
+    });
+    $('#agenda-add').modal('show');
+  }
+  </script>
+  
+</body>
+
+</html>

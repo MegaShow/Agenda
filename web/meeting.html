@@ -1,0 +1,75 @@
+<!doctype html>
+
+<html>
+
+<head>
+  <title>Agenda - All Meetings</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+  <script src="js/moment.js"></script>
+  <script src="js/bootstrap-datetimepicker.js"></script>
+  <script src="js/jquery.cookie.js"></script>
+  <script src="js/api.js"></script>
+</head>
+
+<body style="font-size:21px;">
+  <!-- Menu -->
+  <div id="agenda-nav-bar"></div>
+  <!-- End Menu -->
+  <div class="container col-md-offset-1 col-md-10 theme-showcase" role="main" style="margin-top:70px;">
+    <div class="page-header" style="font-size:40px;">
+      <h1>All Meetings</h1>
+    </div>
+    <div class="row">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead style="font-size:22px;">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Sponsor</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Paticipators</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="meeting-list-table"></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- /.row -->
+  </div>
+
+  <script>
+    $(function () {
+      var count = 0
+      $.post('/api/agenda/meeting', {}, (data) => {
+        if (data.status == 'successful') {
+          for (const i of data.meeting) {
+            count += 1;
+            var start_time = new Date(i.start);
+            var end_time = new Date(i.end);
+            $('#meeting-list-table').append('\
+            <tr>\
+              <td>' + count + '</td>\
+              <td>' + i.title + '</td>\
+              <td>' + i.sponsor + '</td>\
+              <td>' + start_time.toLocaleString() + '</td>\
+              <td>' + end_time.toLocaleString() + '</td>\
+              <td>' + i.part + '</td>\
+              <td></td>\
+            </tr>');
+          }
+          $('#meeting-list-table').trigger('create');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
